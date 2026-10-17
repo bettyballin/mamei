@@ -7,8 +7,8 @@
   <title>MAMEI Elektronik – Dark Design</title>
   <style>
     :root {
-      --magenta: #ff2b98;
-      --magenta-dark: #ff58ae;
+      --accent: #a5b4fc;
+      --accent-dark: #818cf8;
       --ink: #f4f2f7;
       --muted: #aaa7b5;
       --line: #383541;
@@ -32,7 +32,7 @@
     button, input { font: inherit; }
     button, a { -webkit-tap-highlight-color: transparent; }
     button:focus-visible, a:focus-visible {
-      outline: 3px solid #ff8ac4;
+      outline: 3px solid #98a7df;
       outline-offset: 3px;
     }
 
@@ -55,7 +55,7 @@
     }
     .brand { display: inline-flex; flex-direction: column; gap: 1px; }
     .brand-name { font-size: 20px; line-height: 1.1; font-weight: 750; letter-spacing: -.7px; }
-    .brand-dot { display: block; width: 11px; height: 11px; margin: 5px 0 2px; background: var(--magenta); border-radius: 50%; }
+    .brand-dot { display: block; width: 11px; height: 11px; margin: 5px 0 2px; background: var(--accent); border-radius: 50%; }
     .brand-subtitle { color: #8e8a99; font-size: 10px; letter-spacing: .02em; }
     .header-mascot {
       display: block;
@@ -73,11 +73,11 @@
     .icon-button svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.7; }
     .menu-toggle { display: none; }
     .desktop-nav { display: flex; align-items: center; gap: 22px; font-size: 13px; }
-    .desktop-nav a:hover, .text-link:hover { color: var(--magenta-dark); }
+    .desktop-nav a:hover, .text-link:hover { color: var(--accent-dark); }
 
     .hero { padding: 28px 16px 0; }
     .eyebrow {
-      margin: 0 0 5px; color: var(--magenta); font-size: 10px;
+      margin: 0 0 5px; color: var(--accent); font-size: 10px;
       font-weight: 700; letter-spacing: .055em; text-transform: uppercase;
     }
     h1 { max-width: 720px; margin: 0 0 8px; font-size: clamp(26px, 4vw, 42px); line-height: 1.14; letter-spacing: -.045em; }
@@ -89,8 +89,8 @@
       font-size: 13px; font-weight: 650; cursor: pointer; transition: background .2s, transform .2s;
     }
     .button:hover { transform: translateY(-1px); }
-    .button-primary { color: var(--white); background: var(--magenta); }
-    .button-primary:hover { background: var(--magenta-dark); }
+    .button-primary { color: var(--white); background: var(--accent); }
+    .button-primary:hover { background: var(--accent-dark); }
     .button-quiet { color: var(--ink); background: transparent; }
     .button-outline { color: var(--ink); border-color: var(--line); background: var(--white); }
 
@@ -105,11 +105,11 @@
       transition: transform .2s, box-shadow .2s;
     }
     .service-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px #00000035; }
-    .service-icon { width: 20px; height: 20px; margin-bottom: 7px; color: var(--magenta); }
+    .service-icon { width: 20px; height: 20px; margin-bottom: 7px; color: var(--accent); }
     .service-icon svg { width: 19px; height: 19px; stroke: currentColor; fill: none; stroke-width: 1.7; }
     .service-card h2 { margin: 0 0 4px; font-size: 14px; font-weight: 650; }
     .service-card p { margin: 0 0 4px; color: var(--muted); font-size: 12px; }
-    .text-link { color: var(--magenta); font-size: 12px; font-weight: 550; }
+    .text-link { color: var(--accent); font-size: 12px; font-weight: 550; }
 
     .about-panel {
       margin: 0 16px;
@@ -118,7 +118,7 @@
       background: var(--ink);
       border-radius: var(--radius);
     }
-    .about-panel .eyebrow { color: #ff91c8; }
+    .about-panel .eyebrow { color: #c7d2fe; }
     .about-panel h2 { margin: 0 0 6px; font-size: clamp(19px, 2.4vw, 26px); line-height: 1.25; letter-spacing: -.025em; }
     .about-panel p:not(.eyebrow) { margin: 0 0 9px; color: #c5c1ce; font-size: 13px; }
     .about-panel .text-link { color: var(--white); }
@@ -138,7 +138,7 @@
     .site-footer { margin-top: 0; padding: 14px 16px; background: #24212b; }
     .site-footer strong { display: block; margin-bottom: 3px; font-size: 13px; }
     .footer-links { display: flex; flex-wrap: wrap; gap: 5px 14px; color: var(--muted); font-size: 11px; }
-    .footer-links a:hover { color: var(--magenta-dark); }
+    .footer-links a:hover { color: var(--accent-dark); }
 
     .mobile-menu {
       display: none; padding: 8px 16px 14px; border-bottom: 1px solid var(--line);
@@ -152,7 +152,7 @@
     }
     .search-panel.is-open { display: flex; gap: 8px; }
     .search-panel input { min-width: 0; flex: 1; padding: 9px 10px; border: 1px solid var(--line); border-radius: 6px; }
-    .search-panel button { border: 0; border-radius: 6px; padding: 8px 12px; color: white; background: var(--magenta); cursor: pointer; }
+    .search-panel button { border: 0; border-radius: 6px; padding: 8px 12px; color: white; background: var(--accent); cursor: pointer; }
 
     @media (max-width: 760px) {
       .site-shell { width: min(100% - 20px, 540px); margin: 8px auto; border-radius: 9px; }
@@ -210,7 +210,7 @@
         <span class="brand-subtitle">ELEKTRONIK · GERSFELD</span>
       </a>
 
-      <img class="header-mascot" src="mamei-maennchen.png" alt="MAMEI-Männchen mit Smartphone" width="70" height="52">
+      <img class="header-mascot" src="../mamei-maennchen.png" alt="MAMEI-Männchen mit Smartphone" width="70" height="52">
 
       <nav class="desktop-nav" aria-label="Hauptnavigation">
         <a href="#mobilfunk">Mobilfunk</a>
