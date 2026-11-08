@@ -1,0 +1,685 @@
+# -*- coding: utf-8 -*-
+"""Erzeugt die statischen Seiten für mamei.de aus gemeinsamen Bausteinen."""
+import base64, hashlib, os, textwrap
+
+OUT = os.path.dirname(os.path.abspath(__file__))
+SITE = "https://mamei.de"
+PHONE_DISPLAY = "06654 9186 00"
+PHONE_TEL = "+496654918600"
+MAIL = "info@mamei.de"
+BOOKING_ANCHOR = "#termin"  # später ggf. durch Link auf Buchungstool ersetzen
+
+THEME_SCRIPT = ('(function(){try{var t=localStorage.getItem("mamei-theme");'
+                'if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}'
+                'document.documentElement.setAttribute("data-theme",t)}catch(e){}})();')
+THEME_HASH = "sha256-" + base64.b64encode(hashlib.sha256(THEME_SCRIPT.encode()).digest()).decode()
+
+ICONS = {
+ "phone": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6.2 6.2l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>',
+ "mail": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m3 7 9 6 9-6"/></svg>',
+ "pin": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-7.6 7-12.5A7 7 0 0 0 5 9.5C5 14.4 12 22 12 22z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
+ "clock": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+ "cal": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M3 9h18M8 2v4M16 2v4M9 15l2 2 4-4"/></svg>',
+ "mobile": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="3"/><path d="M11 18h2"/></svg>',
+ "wifi": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9a16 16 0 0 1 20 0"/><path d="M5.5 12.5a11 11 0 0 1 13 0"/><path d="M9 16a5 5 0 0 1 6 0"/><circle cx="12" cy="19.5" r="1"/></svg>',
+ "tool": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0 5 5L22 9l-3-3-2.5 2.5"/><path d="M9.3 17.7a4 4 0 0 1-5-5L2 15l3 3 2.5-2.5"/><path d="M14 10L10 14"/></svg>',
+ "home": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>',
+ "arrow": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+ "hammer": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 12 3.5 23.5"/><path d="m14 2 8 8-3.5 3.5L10.5 5.5z"/><path d="M19 7l2-2"/></svg>',
+ "sun": '<svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>',
+ "moon": '<svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>',
+}
+
+def head(title, desc, path, extra_ld=""):
+    canonical = SITE + ("/" if path == "index.html" else "/" + path)
+    return f"""<!DOCTYPE html>
+<html lang="de" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title}</title>
+<meta name="description" content="{desc}">
+<link rel="canonical" href="{canonical}">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#f7f8fb" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111016" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="de_DE">
+<meta property="og:site_name" content="MAMEI Elektronik">
+<meta property="og:title" content="{title}">
+<meta property="og:description" content="{desc}">
+<meta property="og:url" content="{canonical}">
+<meta property="og:image" content="{SITE}/assets/img/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/img/favicon.png" sizes="128x128" type="image/png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/Montserrat-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/style.css">
+<script>{THEME_SCRIPT}</script>
+{extra_ld}
+</head>
+<body>
+<a class="skip" href="#inhalt">Zum Inhalt springen</a>
+"""
+
+def header(current):
+    def nav(href, label, key):
+        cur = ' aria-current="page"' if key == current else ""
+        return f'<a href="{href}"{cur}>{label}</a>'
+    return f"""
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="index.html" aria-label="MAMEI Elektronik – Startseite">
+      <img src="assets/img/mamei-maennchen.png" width="169" height="201" alt="" >
+      <span><strong>MAMEI Elektronik</strong><small>Gersfeld (Rhön) · seit 1994</small></span>
+    </a>
+    <div class="partner" aria-label="Telekom Partner Shop">
+      <img src="assets/img/telekom-partner.png" width="44" height="44" alt="Telekom Partner" loading="lazy">
+      <span>Offizieller Telekom Partner Shop</span>
+    </div>
+    <button class="nav-toggle" aria-label="Menü öffnen" aria-expanded="false" aria-controls="nav">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <nav class="nav" id="nav" aria-label="Hauptnavigation">
+      {nav("index.html#leistungen", "Leistungen", "leistungen")}
+      {nav("baumontage.html", "Baumontage", "baumontage")}
+      {nav("index.html#ueber-uns", "Über uns", "ueber")}
+      {nav("index.html#kontakt", "Kontakt", "kontakt")}
+      <a href="tel:{PHONE_TEL}">{PHONE_DISPLAY}</a>
+      <a class="btn btn-primary" href="index.html{BOOKING_ANCHOR}">Termin vereinbaren</a>
+      <button class="theme-toggle" type="button" aria-label="Dunkles oder helles Design umschalten" title="Hell/Dunkel">{ICONS["sun"]}{ICONS["moon"]}</button>
+    </nav>
+  </div>
+</header>
+<main id="inhalt" class="wrap">
+"""
+
+def footer():
+    return f"""
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand"><img src="assets/img/mamei-maennchen.png" alt="" width="169" height="201" loading="lazy"><strong>MAMEI Elektronik GmbH</strong></div>
+        <p>Telekom Partner Shop in Gersfeld (Rhön). Mobilfunk, Internet &amp; Glasfaser, Reparatur, Smart Home und Baumontage – persönlich beraten seit 1994.</p>
+      </div>
+      <div>
+        <h4>Leistungen</h4>
+        <a href="index.html#leistungen">Mobilfunk &amp; Tarife</a>
+        <a href="index.html#leistungen">Internet &amp; Glasfaser</a>
+        <a href="index.html#leistungen">Reparatur</a>
+        <a href="index.html#leistungen">Smart Home</a>
+        <a href="baumontage.html">Baumontage</a>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <a href="tel:{PHONE_TEL}">{PHONE_DISPLAY}</a>
+        <a href="mailto:{MAIL}">{MAIL}</a>
+        <a href="index.html#kontakt">Ursinusstr. 13, 36129 Gersfeld</a>
+        <a href="index.html#termin">Termin vereinbaren</a>
+      </div>
+      <div>
+        <h4>Rechtliches</h4>
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutzerklärung</a>
+        <button class="theme-toggle" type="button" aria-label="Dunkles oder helles Design umschalten" style="margin:10px 0 0">{ICONS["sun"]}{ICONS["moon"]}</button>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© <span data-year>2026</span> MAMEI Elektronik GmbH · Gersfeld (Rhön)</div>
+      <div><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a></div>
+    </div>
+  </div>
+</footer>
+
+<div class="mobile-bar" aria-label="Schnellkontakt">
+  <a class="btn btn-soft" href="tel:{PHONE_TEL}">{ICONS["phone"]} Anrufen</a>
+  <a class="btn btn-primary" href="index.html{BOOKING_ANCHOR}">{ICONS["cal"]} Termin</a>
+</div>
+
+<script src="assets/js/main.js" defer></script>
+</body>
+</html>
+"""
+
+def contact_form(kind, title_note):
+    """Formular für Terminwunsch (kind=termin) oder Baumontage-Anfrage (kind=baumontage)."""
+    subject_field = ""
+    if kind == "termin":
+        subject_field = """
+      <label>Worum geht es?
+        <select name="thema">
+          <option>Mobilfunk &amp; Tarife</option>
+          <option>Internet &amp; Glasfaser</option>
+          <option>Reparatur</option>
+          <option>Smart Home</option>
+          <option>Baumontage</option>
+          <option>Etwas anderes</option>
+        </select>
+      </label>
+      <label>Wunschtermin <span class="optional">(optional)</span>
+        <input type="text" name="wunschtermin" placeholder="z. B. Freitag Nachmittag" autocomplete="off">
+      </label>"""
+    else:
+        subject_field = """
+      <label>Art der Montage
+        <select name="thema">
+          <option>Glasfaser / Hausanschluss im Gebäude</option>
+          <option>Netzwerk- &amp; Datenverkabelung</option>
+          <option>WLAN-Ausleuchtung / Access Points</option>
+          <option>Sat- &amp; Antennentechnik</option>
+          <option>Smart-Home-Vorbereitung</option>
+          <option>Noch unklar – bitte beraten</option>
+        </select>
+      </label>
+      <label>Ort des Objekts <span class="optional">(optional)</span>
+        <input type="text" name="wunschtermin" placeholder="z. B. Gersfeld, Neubau EFH" autocomplete="off">
+      </label>"""
+    return f"""
+    <form class="panel" action="kontakt.php" method="post" data-validate novalidate>
+      <input type="hidden" name="art" value="{kind}">
+      <input type="hidden" name="ts" value="">
+      <div class="hp" aria-hidden="true"><label>Firma <input type="text" name="firma" tabindex="-1" autocomplete="off"></label></div>
+      <p class="form-note">{title_note}</p>
+      <div class="form-row">
+        <label>Dein Name
+          <input type="text" name="name" required autocomplete="name" maxlength="120">
+        </label>
+        <label>Telefon oder E-Mail
+          <input type="text" name="kontakt" required autocomplete="tel" maxlength="160" placeholder="Wie erreichen wir dich am besten?">
+        </label>
+      </div>
+      <div class="form-row">{subject_field}
+      </div>
+      <label>Deine Nachricht <span class="optional">(optional)</span>
+        <textarea name="nachricht" maxlength="3000" placeholder="Kurz beschreiben, worum es geht – wir melden uns."></textarea>
+      </label>
+      <label class="check">
+        <input type="checkbox" name="consent" value="1" required>
+        <span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung meiner Anfrage verarbeitet werden. Hinweise dazu in der <a href="datenschutz.html">Datenschutzerklärung</a>.</span>
+      </label>
+      <p class="form-error" role="alert" aria-live="polite"></p>
+      <button class="btn btn-primary" type="submit">Anfrage senden</button>
+      <p class="form-note">Wir melden uns in der Regel innerhalb eines Werktags. Kein Newsletter, keine Weitergabe.</p>
+    </form>"""
+
+# ---------------------------------------------------------------- INDEX
+LD_INDEX = """<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ElectronicsStore",
+  "@id": "https://mamei.de/#store",
+  "name": "MAMEI Elektronik GmbH",
+  "url": "https://mamei.de/",
+  "image": "https://mamei.de/assets/img/og-image.jpg",
+  "logo": "https://mamei.de/assets/img/mamei-maennchen.png",
+  "telephone": "+49 6654 918600",
+  "email": "info@mamei.de",
+  "foundingDate": "1994",
+  "description": "Telekom Partner Shop in Gersfeld (Rhön): Mobilfunk, Internet & Glasfaser, Reparatur, Smart Home und Baumontage. Persönliche Beratung seit 1994.",
+  "address": {"@type": "PostalAddress", "streetAddress": "Ursinusstr. 13", "postalCode": "36129", "addressLocality": "Gersfeld (Rhön)", "addressRegion": "Hessen", "addressCountry": "DE"},
+  "openingHoursSpecification": [
+    {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Friday"], "opens": "10:00", "closes": "12:00"},
+    {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Thursday","Friday"], "opens": "15:00", "closes": "18:00"},
+    {"@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "10:00", "closes": "13:00"}
+  ],
+  "priceRange": "€€",
+  "areaServed": "Gersfeld, Rhön, Landkreis Fulda"
+}
+</script>"""
+
+INDEX_BODY = f"""
+<section class="hero" aria-labelledby="hero-title">
+  <div>
+    <div class="eyebrow">Telekom Partner Shop · Gersfeld · seit 1994</div>
+    <h1 id="hero-title">Beratung von Menschen, die du beim Namen kennst.</h1>
+    <p class="lead">Mobilfunk, Internet &amp; Glasfaser, Reparatur und Smart Home. Persönlich im Laden in Gersfeld – ohne Warteschleife und ohne Aufschwatzen.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="{BOOKING_ANCHOR}">{ICONS["cal"]} Termin vereinbaren</a>
+      <a class="btn btn-light" href="tel:{PHONE_TEL}">{ICONS["phone"]} {PHONE_DISPLAY}</a>
+    </div>
+    <div class="hero-meta">
+      <span data-open-status><i class="status-dot" aria-hidden="true"></i><span data-open-text>Öffnungszeiten siehe unten</span></span>
+      <span>{ICONS["pin"]} Ursinusstr. 13, Gersfeld</span>
+    </div>
+  </div>
+  <div class="photo">
+    <img src="assets/img/team.jpg" width="1400" height="933" alt="Das Team von MAMEI Elektronik in Gersfeld" fetchpriority="high">
+    <span class="photo-tag">Das MAMEI-Team in Gersfeld</span>
+  </div>
+</section>
+
+<section id="leistungen" class="section" aria-labelledby="leistungen-title">
+  <div class="section-head">
+    <div><div class="eyebrow">Leistungen</div><h2 id="leistungen-title" style="margin-top:10px">Womit wir helfen</h2></div>
+    <p>Vier Dinge, die wir richtig gut können. Alles andere besprechen wir im Laden – meistens gibt es auch dafür eine Lösung.</p>
+  </div>
+  <div class="bento">
+    <a class="tile tile-accent" href="#reparatur">
+      <div class="eyebrow">Reparatur</div>
+      <div><h3>Display, Akku, Ladebuchse.</h3><p>Preis und Dauer sagen wir vorher, nicht nachher.</p></div>
+    </a>
+    <a class="tile tile-soft" href="#mobilfunk">
+      <div class="icon">{ICONS["mobile"]}</div>
+      <div><h3>Mobilfunk &amp; Tarife</h3><p>Neuvertrag, Verlängerung, ehrlicher Tarifcheck.</p></div>
+    </a>
+    <a class="tile tile-soft" href="#internet">
+      <div class="icon">{ICONS["wifi"]}</div>
+      <div><h3>Internet &amp; Glasfaser</h3><p>Vom Anschluss bis zum WLAN im ganzen Haus.</p></div>
+    </a>
+    <a class="tile tile-soft" href="#smarthome">
+      <div class="icon">{ICONS["home"]}</div>
+      <div><h3>Smart Home</h3><p>Eingerichtet und so erklärt, dass es bleibt.</p></div>
+    </a>
+    <div class="tile tile-dark">
+      <div class="tile-num">1994</div>
+      <p>gegründet – seitdem Familienbetrieb in der Rhön, heute in zweiter Generation.</p>
+    </div>
+    <a class="tile tile-soft tile-wide" href="baumontage.html">
+      <div><div class="eyebrow">Neu</div><h3 style="font-size:24px;font-weight:800;margin-top:6px">Baumontage</h3><p>Glasfaser, Netzwerk, WLAN und Smart Home gleich beim Bau mitdenken – wir montieren vor Ort.</p></div>
+      <div class="arrow" aria-hidden="true">{ICONS["arrow"]}</div>
+    </a>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="details-title">
+  <div class="section-head">
+    <div><div class="eyebrow">Im Detail</div><h2 id="details-title" style="margin-top:10px">Das machen wir für dich</h2></div>
+    <p>Alles aus einer Hand, alles vor Ort. Wenn du dir nicht sicher bist, was du brauchst: Einfach vorbeikommen, wir finden es gemeinsam heraus.</p>
+  </div>
+  <div class="services">
+    <article class="service" id="mobilfunk">
+      <div class="icon">{ICONS["mobile"]}</div>
+      <div>
+        <h3>Mobilfunk &amp; Tarife</h3>
+        <p>Als Telekom Partner Shop beraten wir zu allen Telekom-Tarifen – für Privat- und Geschäftskunden. Wir rechnen ehrlich vor, was sich lohnt, auch wenn das heißt: Der kleinere Tarif reicht.</p>
+        <ul>
+          <li>Neuvertrag und Vertragsverlängerung</li>
+          <li>Rufnummernmitnahme von anderen Anbietern</li>
+          <li>Tarifcheck für bestehende Verträge</li>
+          <li>Smartphones, Zubehör und Einrichtung vor Ort</li>
+          <li>Geschäftskundenlösungen für Betriebe in der Region</li>
+        </ul>
+      </div>
+    </article>
+    <article class="service" id="internet">
+      <div class="icon">{ICONS["wifi"]}</div>
+      <div>
+        <h3>Internet &amp; Glasfaser</h3>
+        <p>Wir prüfen, was an deiner Adresse verfügbar ist, kümmern uns um den Anschluss und richten Router und WLAN so ein, dass es auch im Dachgeschoss funktioniert.</p>
+        <ul>
+          <li>Verfügbarkeitscheck für DSL und Glasfaser</li>
+          <li>Anschluss, Anbieterwechsel und Umzug</li>
+          <li>Router-Einrichtung und WLAN-Optimierung</li>
+          <li>Fernsehen über das Internet</li>
+          <li>Hilfe, wenn es mal nicht läuft</li>
+        </ul>
+      </div>
+    </article>
+    <article class="service" id="reparatur">
+      <div class="icon">{ICONS["tool"]}</div>
+      <div>
+        <h3>Reparatur</h3>
+        <p>Display kaputt, Akku schlapp, Ladebuchse wackelig? Wir schauen uns das Gerät direkt an und sagen dir vorher, was es kostet und wie lange es dauert.</p>
+        <ul>
+          <li>Display- und Akkutausch</li>
+          <li>Ladebuchse, Lautsprecher, Kamera</li>
+          <li>Kostenvoranschlag vor jeder Reparatur</li>
+          <li>Datensicherung und Einrichtung des neuen Geräts</li>
+          <li>Ehrliche Einschätzung: Reparieren oder lieber neu?</li>
+        </ul>
+      </div>
+    </article>
+    <article class="service" id="smarthome">
+      <div class="icon">{ICONS["home"]}</div>
+      <div>
+        <h3>Smart Home</h3>
+        <p>Licht, Heizung, Sicherheit – smart, aber verständlich. Wir richten alles ein und erklären es so, dass du es auch ohne uns bedienen kannst.</p>
+        <ul>
+          <li>Beratung, welche Lösung zu deinem Zuhause passt</li>
+          <li>Einrichtung von Geräten und Apps</li>
+          <li>Vernetzung mit bestehender Technik</li>
+          <li>Einweisung für die ganze Familie</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="ablauf-title">
+  <div class="section-head">
+    <div><div class="eyebrow">So läuft es</div><h2 id="ablauf-title" style="margin-top:10px">Ein Besuch bei MAMEI</h2></div>
+  </div>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><h3>Vorbeikommen oder Termin machen</h3><p>Einfach während der Öffnungszeiten in den Laden kommen. Wer sicher ohne Wartezeit beraten werden will, vereinbart kurz einen Termin.</p></div>
+    <div class="step"><div class="step-num">2</div><h3>In Ruhe beraten lassen</h3><p>Wir hören zu, was du brauchst, und zeigen dir die Möglichkeiten – mit allen Kosten auf dem Tisch. Entscheiden darfst du.</p></div>
+    <div class="step"><div class="step-num">3</div><h3>Eingerichtet mitnehmen</h3><p>Neues Handy, Router oder Reparatur: Du gehst mit einem Gerät nach Hause, das funktioniert. Und wenn später etwas ist, bist du bei uns bekannt.</p></div>
+  </div>
+</section>
+
+<section id="ueber-uns" class="section" aria-labelledby="ueber-title">
+  <div class="about">
+    <div class="photo"><img src="assets/img/beratung.jpg" width="900" height="900" alt="Beraterin von MAMEI Elektronik" loading="lazy"></div>
+    <div class="about-text">
+      <div class="eyebrow">Über uns</div>
+      <h2 id="ueber-title">Über 30 Jahre, ein Laden, dieselben Gesichter.</h2>
+      <p>MAMEI Elektronik gibt es seit 1994 in Gersfeld. Was als kleines Fachgeschäft begann, ist heute der Telekom Partner Shop für die Rhön – geführt von Vanessa und Markus Meiß, mit einem Team, das viele Kunden seit Jahren kennt.</p>
+      <p>Wir glauben, dass Technik dann gut ist, wenn sie einfach funktioniert. Deshalb nehmen wir uns Zeit, erklären so lange, bis es passt, und sind auch nach dem Kauf noch da. Kein Callcenter, keine Warteschleife – sondern Menschen, die man in Gersfeld auf der Straße trifft.</p>
+      <div class="facts">
+        <div class="fact"><strong>1994</strong><span>gegründet, Familienbetrieb</span></div>
+        <div class="fact"><strong>Telekom</strong><span>Partner Shop vor Ort</span></div>
+        <div class="fact"><strong>Rhön</strong><span>zuhause in Gersfeld</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="termin" class="section" aria-labelledby="termin-title">
+  <div class="split">
+    <div class="panel panel-accent">
+      <div class="eyebrow">Termin vereinbaren</div>
+      <h2 id="termin-title">Lieber mit Termin? Gern.</h2>
+      <p>Für Beratungen zu Tarif, Internet oder Smart Home lohnt sich ein fester Termin – dann haben wir Zeit nur für dich. Reparaturen und kurze Fragen gehen auch ohne.</p>
+      <div class="contact-list">
+        <a href="tel:{PHONE_TEL}">{ICONS["phone"]}<span>{PHONE_DISPLAY}<small>Anrufen zu den Öffnungszeiten</small></span></a>
+        <a href="mailto:{MAIL}?subject=Terminanfrage">{ICONS["mail"]}<span>{MAIL}<small>Schreib uns, wir antworten werktags</small></span></a>
+        <a href="#kontakt">{ICONS["pin"]}<span>Ursinusstr. 13, 36129 Gersfeld<small>Einfach vorbeikommen</small></span></a>
+      </div>
+    </div>
+    {contact_form("termin", "Oder du schickst uns deinen Terminwunsch – wir bestätigen per Telefon oder E-Mail.")}
+  </div>
+</section>
+
+<section class="section" aria-labelledby="faq-title">
+  <div class="section-head">
+    <div><div class="eyebrow">Häufige Fragen</div><h2 id="faq-title" style="margin-top:10px">Kurz beantwortet</h2></div>
+  </div>
+  <div class="faq">
+    <details><summary>Brauche ich einen Termin?</summary><p>Nein. Zu den Öffnungszeiten kannst du jederzeit vorbeikommen. Für ausführliche Beratungen – zum Beispiel zum Internetanschluss oder zum Smart Home – empfehlen wir einen Termin, dann musst du nicht warten.</p></details>
+    <details><summary>Wie lange dauert eine Reparatur?</summary><p>Das hängt vom Gerät und vom Ersatzteil ab. Viele Reparaturen sind schnell erledigt, bei anderen müssen wir ein Teil bestellen. Was genau auf dich zukommt, sagen wir dir vorher – inklusive Preis.</p></details>
+    <details><summary>Kann ich meine Rufnummer mitnehmen?</summary><p>Ja. Bei einem Wechsel zur Telekom kümmern wir uns um die Rufnummernmitnahme. Bring am besten eine aktuelle Rechnung deines bisherigen Anbieters mit, dann geht es schneller.</p></details>
+    <details><summary>Gibt es bei mir Glasfaser?</summary><p>Das prüfen wir im Laden in wenigen Minuten anhand deiner Adresse. Falls noch kein Glasfaser verfügbar ist, zeigen wir dir, was aktuell die beste Alternative ist.</p></details>
+    <details><summary>Helft ihr auch bei der Einrichtung?</summary><p>Immer. Neues Handy, neuer Router oder Smart-Home-Gerät: Wir richten es mit dir zusammen ein und übertragen auf Wunsch deine Daten vom alten Gerät.</p></details>
+    <details><summary>Beratet ihr auch Geschäftskunden?</summary><p>Ja. Für Betriebe, Praxen und Vereine in der Region finden wir passende Mobilfunk- und Internetlösungen – und einen Ansprechpartner, der später auch noch da ist.</p></details>
+  </div>
+</section>
+
+<section id="kontakt" class="section" aria-labelledby="kontakt-title">
+  <div class="section-head">
+    <div><div class="eyebrow">Kontakt</div><h2 id="kontakt-title" style="margin-top:10px">Komm vorbei</h2></div>
+    <p>Mitten in Gersfeld – wir freuen uns auf dich.</p>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-card">
+      <h3>{ICONS["pin"]} Adresse</h3>
+      <address>
+        <strong>MAMEI Elektronik GmbH</strong><br>
+        Ursinusstr. 13<br>
+        36129 Gersfeld (Rhön)
+      </address>
+      <p><a href="https://www.openstreetmap.org/search?query=Ursinusstr.%2013%2C%2036129%20Gersfeld" target="_blank" rel="noopener noreferrer">Route planen (OpenStreetMap) ↗</a></p>
+    </div>
+    <div class="contact-card">
+      <h3>{ICONS["clock"]} Öffnungszeiten</h3>
+      <div class="hours">
+        <div data-day="1">Montag</div><div>10:00 – 12:00 · 15:00 – 18:00 Uhr</div>
+        <div data-day="2">Dienstag</div><div>15:00 – 18:00 Uhr</div>
+        <div data-day="3">Mittwoch</div><div class="closed">geschlossen</div>
+        <div data-day="4">Donnerstag</div><div>15:00 – 18:00 Uhr</div>
+        <div data-day="5">Freitag</div><div>10:00 – 12:00 · 15:00 – 18:00 Uhr</div>
+        <div data-day="6">Samstag</div><div>10:00 – 13:00 Uhr</div>
+      </div>
+      <div class="status-line" data-open-status><i class="status-dot" aria-hidden="true"></i><span data-open-text></span></div>
+    </div>
+    <div class="contact-card">
+      <h3>{ICONS["phone"]} Erreichbarkeit</h3>
+      <p>
+        Telefon: <a href="tel:{PHONE_TEL}">{PHONE_DISPLAY}</a><br>
+        E-Mail: <a href="mailto:{MAIL}">{MAIL}</a>
+      </p>
+      <p>Außerhalb der Öffnungszeiten: Schreib uns eine E-Mail oder nutze das <a href="#termin">Terminformular</a> – wir melden uns am nächsten Werktag.</p>
+    </div>
+  </div>
+</section>
+"""
+
+# ---------------------------------------------------------------- BAUMONTAGE
+BAU_BODY = f"""
+<section class="page-hero">
+  <nav class="breadcrumb" aria-label="Brotkrumen"><a href="index.html">Start</a><span>›</span><span>Baumontage</span></nav>
+  <div class="eyebrow" style="margin-top:22px">Baumontage</div>
+  <h1>Technik, die beim Bau schon mitgedacht ist.</h1>
+  <p class="lead">Glasfaser, Netzwerk, WLAN, Sat und Smart Home: Wer das in der Bauphase plant, spart später Kabelkanäle, Ärger und Geld. Wir montieren vor Ort in Gersfeld und Umgebung – sauber, abgestimmt mit Bauherren und Elektrikern.</p>
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="#anfrage">{ICONS["cal"]} Montage anfragen</a>
+    <a class="btn btn-light" href="tel:{PHONE_TEL}">{ICONS["phone"]} {PHONE_DISPLAY}</a>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="bau-leistungen">
+  <div class="section-head">
+    <div><div class="eyebrow">Leistungen</div><h2 id="bau-leistungen" style="margin-top:10px">Das montieren wir</h2></div>
+    <p>Vom Hausanschluss bis zur letzten Dose. Alles aufeinander abgestimmt, damit am Ende alles zusammen funktioniert.</p>
+  </div>
+  <div class="services">
+    <article class="service">
+      <div class="icon">{ICONS["wifi"]}</div>
+      <div>
+        <h3>Glasfaser im Gebäude</h3>
+        <p>Vom Hausübergabepunkt bis zum Router: Wir verlegen und schließen an, damit der Glasfaseranschluss am Ende auch dort ankommt, wo er gebraucht wird.</p>
+        <ul><li>Inhouse-Verkabelung ab Hausanschluss</li><li>Glasfaser-Dose im Wohnbereich</li><li>Abstimmung mit dem Netzbetreiber</li></ul>
+      </div>
+    </article>
+    <article class="service">
+      <div class="icon">{ICONS["hammer"]}</div>
+      <div>
+        <h3>Netzwerk- &amp; Datenverkabelung</h3>
+        <p>LAN-Dosen in jedem Raum, ein sauberer Netzwerkschrank und WLAN-Zugangspunkte dort, wo sie wirklich etwas bringen. Zukunftssicher verlegt.</p>
+        <ul><li>Netzwerkdosen und Patchfeld</li><li>WLAN-Ausleuchtung mit Access Points</li><li>Vorbereitung für Homeoffice und Streaming</li></ul>
+      </div>
+    </article>
+    <article class="service">
+      <div class="icon">{ICONS["tool"]}</div>
+      <div>
+        <h3>Sat- &amp; Antennentechnik</h3>
+        <p>Fernsehempfang per Satellit oder Antenne – ausgerichtet, verteilt und angeschlossen. Auch bei Mehrfamilienhäusern.</p>
+        <ul><li>Satellitenanlagen und Multischalter</li><li>Antennendosen in den Wohnräumen</li><li>Kombination mit TV über Internet</li></ul>
+      </div>
+    </article>
+    <article class="service">
+      <div class="icon">{ICONS["home"]}</div>
+      <div>
+        <h3>Smart-Home-Vorbereitung</h3>
+        <p>Rollläden, Licht, Heizung, Türkommunikation: Wir planen mit, welche Leitungen und Komponenten es braucht, damit das Haus später smart werden kann – ohne Nachrüstärger.</p>
+        <ul><li>Beratung in der Planungsphase</li><li>Montage und Einrichtung der Komponenten</li><li>Einweisung zur Übergabe</li></ul>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="bau-fuer-wen">
+  <div class="section-head">
+    <div><div class="eyebrow">Für wen</div><h2 id="bau-fuer-wen" style="margin-top:10px">Bauherren, Handwerk, Gewerbe</h2></div>
+  </div>
+  <div class="audience">
+    <div class="step"><h3>Private Bauherren</h3><p>Neubau oder Sanierung in der Rhön? Wir beraten vor dem ersten Schlitz in der Wand und montieren, wenn es so weit ist. Ein Ansprechpartner von der Planung bis zur Einrichtung.</p></div>
+    <div class="step"><h3>Elektriker &amp; Bauträger</h3><p>Wir ergänzen eure Arbeit um Daten-, Glasfaser- und Sat-Technik – abgestimmt auf euren Zeitplan, mit sauberer Dokumentation.</p></div>
+    <div class="step"><h3>Gewerbe &amp; Vermieter</h3><p>Praxen, Büros, Ferienwohnungen, Mehrfamilienhäuser: Netzwerk und Empfang, die zuverlässig laufen – und später von uns betreut werden.</p></div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="bau-ablauf">
+  <div class="section-head">
+    <div><div class="eyebrow">Ablauf</div><h2 id="bau-ablauf" style="margin-top:10px">In drei Schritten</h2></div>
+  </div>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><h3>Anfrage</h3><p>Kurz beschreiben, was gebaut wird und was du dir vorstellst. Pläne oder Fotos helfen, sind aber kein Muss.</p></div>
+    <div class="step"><div class="step-num">2</div><h3>Termin vor Ort &amp; Angebot</h3><p>Wir schauen uns das Objekt an, besprechen Wünsche und Möglichkeiten und machen ein Angebot mit klaren Positionen – bevor wir anfangen.</p></div>
+    <div class="step"><div class="step-num">3</div><h3>Montage &amp; Übergabe</h3><p>Sauber montiert, geprüft, eingerichtet und erklärt. Und wenn später eine Frage auftaucht: Der Laden ist um die Ecke.</p></div>
+  </div>
+</section>
+
+<section id="anfrage" class="section" aria-labelledby="bau-anfrage">
+  <div class="split">
+    <div class="panel panel-accent">
+      <div class="eyebrow">Anfrage</div>
+      <h2 id="bau-anfrage">Erzähl uns von deinem Projekt.</h2>
+      <p>Drei Felder, keine Registrierung. Wir melden uns innerhalb eines Werktags und vereinbaren bei Bedarf einen Vor-Ort-Termin.</p>
+      <div class="contact-list">
+        <a href="tel:{PHONE_TEL}">{ICONS["phone"]}<span>{PHONE_DISPLAY}<small>Direkt anrufen</small></span></a>
+        <a href="mailto:{MAIL}?subject=Anfrage%20Baumontage">{ICONS["mail"]}<span>{MAIL}<small>Pläne oder Fotos gern als Anhang</small></span></a>
+      </div>
+    </div>
+    {contact_form("baumontage", "Anfrage für Baumontage – wir melden uns mit einem Terminvorschlag.")}
+  </div>
+</section>
+
+<section class="section" aria-labelledby="bau-faq">
+  <div class="section-head">
+    <div><div class="eyebrow">Häufige Fragen</div><h2 id="bau-faq" style="margin-top:10px">Gut zu wissen</h2></div>
+  </div>
+  <div class="faq">
+    <details><summary>Wann sollte ich mich melden?</summary><p>Am besten, bevor der Elektriker mit der Rohinstallation beginnt. Dann können Leerrohre und Dosen gleich eingeplant werden. Aber auch im Bestand finden wir fast immer einen Weg.</p></details>
+    <details><summary>Arbeitet ihr mit meinem Elektriker zusammen?</summary><p>Ja, gern. Wir stimmen uns ab, wer was macht, damit es keine doppelten Wege gibt. Viele Betriebe in der Region kennen uns schon.</p></details>
+    <details><summary>Was kostet eine Montage?</summary><p>Das hängt vom Umfang ab. Nach dem Vor-Ort-Termin bekommst du ein Angebot mit allen Positionen – ohne versteckte Kosten. Erst wenn du zustimmst, legen wir los.</p></details>
+    <details><summary>In welchem Umkreis seid ihr unterwegs?</summary><p>Rund um Gersfeld und in der Rhön. Wenn dein Objekt weiter weg liegt, frag einfach kurz an – oft geht mehr als man denkt.</p></details>
+  </div>
+</section>
+"""
+
+# ---------------------------------------------------------------- IMPRESSUM
+IMPRESSUM_BODY = f"""
+<section class="page-hero">
+  <nav class="breadcrumb" aria-label="Brotkrumen"><a href="index.html">Start</a><span>›</span><span>Impressum</span></nav>
+  <h1>Impressum</h1>
+</section>
+<section class="section prose">
+  <h2>Angaben gemäß § 5 DDG</h2>
+  <p><strong>MAMEI Elektronik GmbH</strong><br>Ursinusstr. 13<br>36129 Gersfeld (Rhön)</p>
+  <p>Vertreten durch die Geschäftsführung: Vanessa Meiß, Markus Meiß</p>
+  <h3>Kontakt</h3>
+  <p>Telefon: <a href="tel:{PHONE_TEL}">{PHONE_DISPLAY}</a><br>E-Mail: <a href="mailto:{MAIL}">{MAIL}</a></p>
+  <h3>Registereintrag</h3>
+  <p>Eintragung im Handelsregister.<br>Registergericht: Amtsgericht Fulda<br>Registernummer: HRB 7581</p>
+  <h3>Umsatzsteuer-ID</h3>
+  <p>Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz: DE 165600415</p>
+  <h3>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h3>
+  <p>Vanessa Meiß, Ursinusstr. 13, 36129 Gersfeld (Rhön)</p>
+  <h2>Hinweis zur Streitbeilegung</h2>
+  <p>Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen (§ 36 VSBG).</p>
+  <h2>Haftung für Inhalte</h2>
+  <p>Die Inhalte dieser Website wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt.</p>
+  <h2>Haftung für Links</h2>
+  <p>Unsere Website enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Für diese fremden Inhalte übernehmen wir keine Gewähr; verantwortlich ist stets der jeweilige Anbieter oder Betreiber. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen.</p>
+  <h2>Urheberrecht</h2>
+  <p>Die durch uns erstellten Inhalte und Werke auf dieser Website unterliegen dem deutschen Urheberrecht. Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechts bedürfen der schriftlichen Zustimmung. „Telekom“ und das Telekom-Logo sind Marken der Deutsche Telekom AG; ihre Verwendung erfolgt im Rahmen der Partnerschaft.</p>
+</section>
+"""
+
+# ---------------------------------------------------------------- DATENSCHUTZ
+DS_BODY = f"""
+<section class="page-hero">
+  <nav class="breadcrumb" aria-label="Brotkrumen"><a href="index.html">Start</a><span>›</span><span>Datenschutzerklärung</span></nav>
+  <h1>Datenschutzerklärung</h1>
+  <p class="lead">Kurz gesagt: Diese Website kommt ohne Tracking, ohne Werbe-Cookies und ohne externe Dienste aus. Was wir verarbeiten, steht hier.</p>
+</section>
+<section class="section prose">
+  <h2>1. Verantwortliche Stelle</h2>
+  <p>MAMEI Elektronik GmbH, Ursinusstr. 13, 36129 Gersfeld (Rhön)<br>Telefon: <a href="tel:{PHONE_TEL}">{PHONE_DISPLAY}</a>, E-Mail: <a href="mailto:{MAIL}">{MAIL}</a><br>Vertreten durch die Geschäftsführung: Vanessa Meiß, Markus Meiß</p>
+
+  <h2>2. Hosting</h2>
+  <p>Diese Website wird bei der ALL-INKL.COM – Neue Medien Münnich, Hauptstraße 68, 02742 Friedersdorf, Deutschland, gehostet. Die Server stehen in Deutschland. Mit dem Anbieter besteht ein Vertrag zur Auftragsverarbeitung gemäß Art. 28 DSGVO.</p>
+  <h3>Server-Logfiles</h3>
+  <p>Beim Aufruf der Website erhebt der Hoster automatisch Informationen in sogenannten Server-Logfiles: IP-Adresse (gekürzt bzw. nach kurzer Zeit gelöscht), Datum und Uhrzeit, aufgerufene Seite, übertragene Datenmenge, Browsertyp und -version, Betriebssystem, Referrer-URL. Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. Unser berechtigtes Interesse liegt in der technisch fehlerfreien Darstellung, der Sicherheit und der Stabilität der Website. Die Logfiles werden nach spätestens sieben Tagen gelöscht, sofern sie nicht zur Aufklärung eines Sicherheitsvorfalls benötigt werden.</p>
+
+  <h2>3. Kontaktaufnahme</h2>
+  <h3>Kontakt- und Terminformulare</h3>
+  <p>Wenn du uns über das Terminformular oder die Baumontage-Anfrage kontaktierst, verarbeiten wir die von dir eingegebenen Angaben (Name, Telefonnummer oder E-Mail-Adresse, Thema, Nachricht sowie Zeitpunkt der Anfrage) ausschließlich zur Bearbeitung deiner Anfrage. Die Angaben werden per E-Mail an unser Postfach übermittelt und dort gespeichert. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Anbahnung eines Vertrags) bzw. Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Beantwortung von Anfragen). Die Daten werden gelöscht, sobald die Anfrage abschließend bearbeitet ist und keine gesetzlichen Aufbewahrungspflichten entgegenstehen, spätestens jedoch nach zwölf Monaten.</p>
+  <p>Zum Schutz vor automatisierten Anfragen prüfen die Formulare ein verstecktes Feld und die Ausfüllzeit. Dabei werden keine externen Dienste eingesetzt und keine Daten an Dritte übermittelt.</p>
+  <h3>E-Mail und Telefon</h3>
+  <p>Wenn du uns per E-Mail oder Telefon kontaktierst, verarbeiten wir deine Angaben zur Bearbeitung des Anliegens (Art. 6 Abs. 1 lit. b und f DSGVO). Unsere E-Mail-Postfächer werden ebenfalls bei ALL-INKL.COM in Deutschland betrieben.</p>
+
+  <h2>4. Cookies, lokale Speicherung und Tracking</h2>
+  <p>Diese Website setzt keine Cookies und verwendet keine Analyse-, Tracking- oder Werbedienste. Es werden keine Daten an Google, Meta oder andere Drittanbieter übermittelt.</p>
+  <p>Einzige Ausnahme: Wenn du über den Schalter „Hell/Dunkel“ das Design wechselst, speichert dein Browser diese Wahl lokal (localStorage, Eintrag „mamei-theme“). Diese Speicherung ist für die von dir ausdrücklich gewünschte Funktion erforderlich (§ 25 Abs. 2 Nr. 2 TDDDG), enthält keine personenbezogenen Daten und wird nicht an uns oder Dritte übertragen. Du kannst sie jederzeit über die Browsereinstellungen löschen.</p>
+
+  <h2>5. Schriftarten und Grafiken</h2>
+  <p>Die verwendete Schriftart (Montserrat, SIL Open Font License) sowie alle Bilder und Icons werden von unserem eigenen Server ausgeliefert. Es werden keine Schriften von Google Fonts oder anderen externen Servern nachgeladen.</p>
+
+  <h2>6. Externe Links</h2>
+  <p>Für die Routenplanung verlinken wir auf OpenStreetMap. Der Link öffnet erst nach deinem Klick eine externe Website; vorher werden keine Daten an den Anbieter übertragen. Für die Inhalte verlinkter Seiten gelten die Datenschutzhinweise des jeweiligen Anbieters.</p>
+
+  <h2>7. Deine Rechte</h2>
+  <p>Du hast gegenüber uns folgende Rechte hinsichtlich der dich betreffenden personenbezogenen Daten:</p>
+  <ul>
+    <li>Recht auf Auskunft (Art. 15 DSGVO)</li>
+    <li>Recht auf Berichtigung (Art. 16 DSGVO)</li>
+    <li>Recht auf Löschung (Art. 17 DSGVO)</li>
+    <li>Recht auf Einschränkung der Verarbeitung (Art. 18 DSGVO)</li>
+    <li>Recht auf Datenübertragbarkeit (Art. 20 DSGVO)</li>
+    <li>Recht auf Widerspruch gegen Verarbeitungen auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO (Art. 21 DSGVO)</li>
+  </ul>
+  <p>Zur Ausübung deiner Rechte genügt eine formlose Nachricht an <a href="mailto:{MAIL}">{MAIL}</a>. Du hast außerdem das Recht, dich bei einer Datenschutz-Aufsichtsbehörde zu beschweren. Zuständig für uns ist der Hessische Beauftragte für Datenschutz und Informationsfreiheit, Gustav-Stresemann-Ring 1, 65189 Wiesbaden.</p>
+
+  <h2>8. Datensicherheit</h2>
+  <p>Diese Website nutzt eine TLS-Verschlüsselung (erkennbar am „https“ in der Adresszeile). Dadurch sind Daten, die du an uns übermittelst, auf dem Übertragungsweg vor dem Zugriff Dritter geschützt.</p>
+
+  <h2>9. Änderungen</h2>
+  <p>Wir passen diese Datenschutzerklärung an, wenn sich die Website oder die Rechtslage ändert. Es gilt die jeweils hier veröffentlichte Fassung.</p>
+  <p><em>Stand: November 2026</em></p>
+</section>
+"""
+
+DANKE_BODY = f"""
+<section class="page-hero">
+  <div class="eyebrow">Danke</div>
+  <h1>Deine Anfrage ist angekommen.</h1>
+  <p class="lead">Wir melden uns in der Regel innerhalb eines Werktags per Telefon oder E-Mail. Wenn es eilig ist: <a href="tel:{PHONE_TEL}">{PHONE_DISPLAY}</a> zu den Öffnungszeiten.</p>
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="index.html">{ICONS["arrow"]} Zurück zur Startseite</a>
+    <a class="btn btn-light" href="index.html#kontakt">Öffnungszeiten ansehen</a>
+  </div>
+</section>
+"""
+
+NOTFOUND_BODY = f"""
+<section class="page-hero">
+  <div class="eyebrow">Fehler 404</div>
+  <h1>Diese Seite gibt es nicht (mehr).</h1>
+  <p class="lead">Vielleicht ist der Link veraltet. Alles Wichtige findest du auf der Startseite – oder du rufst uns einfach an.</p>
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="/">{ICONS["arrow"]} Zur Startseite</a>
+    <a class="btn btn-light" href="tel:{PHONE_TEL}">{ICONS["phone"]} {PHONE_DISPLAY}</a>
+  </div>
+</section>
+"""
+
+def page(fname, title, desc, body, current="", ld="", robots_noindex=False):
+    html = head(title, desc, fname, ld) + header(current) + body + footer()
+    if robots_noindex:
+        html = html.replace('<meta name="robots" content="index,follow">', '<meta name="robots" content="noindex,follow">')
+    if fname == "404.html":
+        # absolute Pfade, damit die Fehlerseite aus jedem Verzeichnis funktioniert
+        html = html.replace('href="assets/', 'href="/assets/').replace('src="assets/', 'src="/assets/').replace('href="index.html', 'href="/index.html').replace('href="baumontage.html"', 'href="/baumontage.html"').replace('href="impressum.html"', 'href="/impressum.html"').replace('href="datenschutz.html"', 'href="/datenschutz.html"')
+    with open(os.path.join(OUT, fname), "w", encoding="utf-8") as f:
+        f.write(html)
+    print("wrote", fname, len(html))
+
+page("index.html", "MAMEI Elektronik – Telekom Partner Shop in Gersfeld (Rhön)",
+     "Mobilfunk, Internet & Glasfaser, Reparatur, Smart Home und Baumontage in Gersfeld. Persönliche Beratung seit 1994 – ohne Warteschleife. Telekom Partner Shop.",
+     INDEX_BODY, current="", ld=LD_INDEX)
+page("baumontage.html", "Baumontage in der Rhön – Glasfaser, Netzwerk, Sat & Smart Home | MAMEI Elektronik",
+     "Baumontage von MAMEI Elektronik Gersfeld: Glasfaser im Gebäude, Netzwerkverkabelung, WLAN, Sat-Technik und Smart-Home-Vorbereitung für Neubau und Sanierung.",
+     BAU_BODY, current="baumontage")
+page("impressum.html", "Impressum | MAMEI Elektronik GmbH", "Impressum der MAMEI Elektronik GmbH, Gersfeld (Rhön).", IMPRESSUM_BODY, robots_noindex=True)
+page("datenschutz.html", "Datenschutzerklärung | MAMEI Elektronik GmbH", "Datenschutzerklärung der MAMEI Elektronik GmbH: Hosting, Kontaktformulare, Cookies, Rechte der Betroffenen.", DS_BODY, robots_noindex=True)
+page("danke.html", "Danke für deine Anfrage | MAMEI Elektronik", "Deine Anfrage ist bei MAMEI Elektronik angekommen.", DANKE_BODY, robots_noindex=True)
+page("404.html", "Seite nicht gefunden | MAMEI Elektronik", "Diese Seite existiert nicht.", NOTFOUND_BODY, robots_noindex=True)
+
+# CSP-Hash für .htaccess ausgeben
+with open(os.path.join(OUT, ".csp-hash.txt"), "w") as f:
+    f.write(THEME_HASH)
+print("CSP hash:", THEME_HASH)
