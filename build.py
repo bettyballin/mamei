@@ -115,7 +115,8 @@ def footer():
       <a href="baumontage.html">Baumontage</a>
       <a href="impressum.html">Impressum</a>
       <a href="datenschutz.html">Datenschutz</a>
-      <span>© <span data-year>2026</span></span>
+      <span>© <span data-year>2026</span> MAMEI Elektronik GmbH</span>
+      <span class="credit">Design &amp; Umsetzung: <span rel="author">Bettina Ballin</span></span>
     </div>
   </footer>
 
