@@ -15,9 +15,9 @@ danke.html          Bestätigung nach Formularversand
 kontakt.php         Formularhandler (sendet Anfragen per E-Mail)
 .htaccess           HTTPS-Zwang, Weiterleitungen alter Shop-URLs, Sicherheits-Header, Caching
 robots.txt, sitemap.xml
-assets/css/style.css    Stylesheet mit Hell/Dunkel-Tokens
-assets/js/main.js       Menü, Hell/Dunkel-Schalter, Öffnungsstatus, Formularprüfung
-assets/fonts/           Montserrat (variable WOFF2, lokal, OFL-Lizenz)
+assets/css/style.css    Stylesheet
+assets/js/main.js       Menü, Öffnungsstatus, Formularprüfung
+assets/fonts/           Plus Jakarta Sans (variable WOFF2, lokal, OFL-Lizenz)
 assets/img/             Bilder, Favicons, OG-Bild
 ```
 
@@ -33,16 +33,15 @@ assets/img/             Bilder, Favicons, OG-Bild
 6. Das Log `kontakt.log` (nur Zeitstempel und Status, keine Inhalte) wird per .htaccess vor Zugriff geschützt.
    Wer kein Log will: in `kontakt.php` `$LOG_DATEI = '';` setzen.
 
-## Hell/Dunkel
+## Farben
 
-Die Seite folgt der Systemeinstellung des Besuchers. Der Schalter im Header bzw. Footer speichert die Wahl
-in `localStorage` (Eintrag `mamei-theme`). Das ist in der Datenschutzerklärung beschrieben. Kein Cookie-Banner nötig.
+Akzentfarbe ist Schieferblau (`--accent: #4b5a8d`, `--accent-dark: #2f3a5f`, `--accent-deep: #1f2742`). Alle Farben stehen als Variablen oben in `assets/css/style.css`.
+Die Hero-Überschrift und die drei USP-Zeilen stammen aus dem Mockup; die Seite duzt weiterhin (das Mockup siezt) – falls gewünscht, in `build.py` umstellen.
 
 ## Termin-Button
 
 Alle „Termin vereinbaren“-Buttons führen auf den Abschnitt `#termin` mit Telefon, E-Mail und Terminformular.
-Soll später ein Buchungstool verlinkt werden: in `build.py` `BOOKING_ANCHOR` ändern und neu bauen, oder
-die Links `index.html#termin` in den HTML-Dateien ersetzen.
+Soll später ein Buchungstool verlinkt werden: in `build.py` `BOOKING` ändern und neu bauen.
 
 ## Mit Vanessa abstimmen, bevor es live geht
 
@@ -54,7 +53,7 @@ die Links `index.html#termin` in den HTML-Dateien ersetzen.
   auf Aktualität prüfen. Verantwortlich nach § 18 MStV ist derzeit Vanessa Meiß eingetragen.
 - **Datenschutzerklärung**: Entwurf für genau diese Website (Hosting All-Inkl, Formulare per Mail, kein Tracking).
   Löschfristen (Logfiles 7 Tage, Anfragen 12 Monate) ggf. an die Praxis anpassen. AVV mit All-Inkl abschließen (im KAS abrufbar).
-- **Fotos**: Teamfoto, Beraterin-Porträt und Router-Bild stammen aus dem bisherigen Projekt. Für den Livegang
+- **Fotos**: Das Hero-Bild (`hero-smartphone.jpg`) ist KI-generiert und zeigt das Telekom-Logo – Freigabe über das Partnerportal prüfen. Teamfoto, Beraterin-Porträt und Router-Bild stammen aus dem bisherigen Projekt. Für den Livegang
   Nutzungsrechte prüfen bzw. durch eigene Fotos ersetzen. Telekom-Partner-Logo nur in der von der Telekom freigegebenen Form verwenden.
 - **Öffnungszeiten**: stehen an drei Stellen – `index.html` (Kontaktkarte), `assets/js/main.js` (`HOURS`, für den
   Live-Status) und im JSON-LD im `<head>` von `index.html`. Bei Änderungen alle drei anpassen.
