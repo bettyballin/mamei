@@ -9,8 +9,7 @@ PHONE_TEL = "+496654918600"
 MAIL = "info@mamei.de"
 BOOKING_ANCHOR = "#termin"  # später ggf. durch Link auf Buchungstool ersetzen
 
-THEME_SCRIPT = ('(function(){try{var t=localStorage.getItem("mamei-theme");'
-                'if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}'
+THEME_SCRIPT = ('(function(){try{var t=localStorage.getItem("mamei-theme")||"light";'
                 'document.documentElement.setAttribute("data-theme",t)}catch(e){}})();')
 THEME_HASH = "sha256-" + base64.b64encode(hashlib.sha256(THEME_SCRIPT.encode()).digest()).decode()
 

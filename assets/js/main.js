@@ -10,9 +10,8 @@
   var mq = window.matchMedia("(prefers-color-scheme: dark)");
   function applyTheme(t) { root.setAttribute("data-theme", t); }
   function storedTheme() { try { return localStorage.getItem("mamei-theme"); } catch (e) { return null; } }
-  applyTheme(storedTheme() || (mq.matches ? "dark" : "light"));
-  mq.addEventListener && mq.addEventListener("change", function (e) { if (!storedTheme()) applyTheme(e.matches ? "dark" : "light"); });
-
+  applyTheme(storedTheme() || "light");
+  
   document.querySelectorAll(".theme-toggle").forEach(function (btn) {
     btn.addEventListener("click", function () {
       var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
