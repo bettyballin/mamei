@@ -47,7 +47,7 @@
       </nav>
       <div class="header-actions">
         <a class="header-phone" href="tel:+496654918600"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6.2 6.2l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg> 06654 9186 00</a>
-        <a class="button button-primary" href="index.html#termin"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg> Beratungstermin</a>
+        <a class="button button-primary" href="https://www.telekom.de/telekom-shops/terminvereinbarung/#/service-selection?customertype=pk&vpnr=4000616182" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg> Termin buchen</a>
         <button class="icon-button menu-toggle" id="menuToggle" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobileMenu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
       </div>
     </div>
@@ -55,7 +55,7 @@
       <a href="index.html#leistungen">Leistungen</a>
       <a href="baumontage.html">Baumontage</a>
       <a href="index.html#ueber-uns">Über uns</a>
-      <a href="index.html#termin">Beratungstermin</a>
+      <a href="https://www.telekom.de/telekom-shops/terminvereinbarung/#/service-selection?customertype=pk&vpnr=4000616182" target="_blank" rel="noopener noreferrer">Online Termin buchen ↗</a>
       <a href="index.html#kontakt">Kontakt &amp; Öffnungszeiten</a>
       <a href="tel:+496654918600">Anrufen: 06654 9186 00</a>
     </nav>
@@ -115,11 +115,12 @@
           <input type="hidden" name="art" value="baumontage">
           <input type="hidden" name="ts" value="">
           <div class="hp" aria-hidden="true"><label>Firma <input type="text" name="firma" tabindex="-1" autocomplete="off"></label></div>
-          <p class="form-note">Anfrage für Baumontage – wir melden uns mit einem Terminvorschlag.</p>
+          <p class="form-note">Anfrage für Baumontage – wir rufen zurück und schlagen einen Vor-Ort-Termin vor.</p>
           <div class="form-row">
-            <label>Dein Name<input type="text" name="name" required autocomplete="name" maxlength="120"></label>
-            <label>Telefon oder E-Mail<input type="text" name="kontakt" required autocomplete="tel" maxlength="160" placeholder="Wie erreichen wir dich am besten?"></label>
+            <label>Dein Name <span class="req" aria-hidden="true">*</span><input type="text" name="name" required autocomplete="name" maxlength="120"></label>
+            <label>Telefonnummer <span class="req" aria-hidden="true">*</span><input type="tel" name="telefon" required autocomplete="tel" inputmode="tel" maxlength="40" placeholder="Für den Rückruf"></label>
           </div>
+          <label>E-Mail <span class="optional">(optional)</span><input type="email" name="email" autocomplete="email" maxlength="160" placeholder="Falls du lieber eine schriftliche Bestätigung möchtest"></label>
           <div class="form-row">
           <label>Art der Montage
             <select name="thema">
@@ -140,8 +141,8 @@
             <span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung meiner Anfrage verarbeitet werden. Hinweise dazu in der <a href="datenschutz.html">Datenschutzerklärung</a>.</span>
           </label>
           <p class="form-error" role="alert" aria-live="polite"></p>
-          <button class="button button-primary" type="submit">Anfrage senden</button>
-          <p class="form-note">Wir melden uns in der Regel innerhalb eines Werktags. Kein Newsletter, keine Weitergabe.</p>
+          <button class="button button-primary" type="submit">Terminwunsch senden</button>
+          <p class="form-note"><span class="req">*</span> Pflichtfeld. Wir melden uns in der Regel innerhalb eines Werktags. Kein Newsletter, keine Weitergabe.</p>
         </form>
         </div>
       </section>
@@ -160,7 +161,7 @@
   <footer class="site-footer wrap">
     <div>
       <strong>MAMEI Elektronik GmbH · Telekom Partner Shop Gersfeld</strong>
-      <address>Ursinusstr. 13, 36129 Gersfeld (Rhön) · <a href="tel:+496654918600">06654 9186 00</a> · <a href="mailto:info@mamei.de">info@mamei.de</a></address>
+      <address>Ursinusstr. 13, 36129 Gersfeld (Rhön) · <a href="tel:+496654918600">06654 9186 00</a> · <a href="https://wa.me/496654918600?text=Hallo%20MAMEI%2C%20ich%20habe%20eine%20Frage%3A%20" target="_blank" rel="noopener noreferrer">WhatsApp</a> · <a href="mailto:info@mamei.de">info@mamei.de</a></address>
     </div>
     <div class="footer-links">
       <a href="index.html#kontakt">Öffnungszeiten</a>
@@ -175,8 +176,10 @@
 
   <div class="mobile-bar" aria-label="Schnellkontakt">
     <a class="button button-outline" href="tel:+496654918600"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6.2 6.2l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg> Anrufen</a>
-    <a class="button button-primary" href="index.html#termin"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg> Termin</a>
+    <a class="button button-primary" href="https://www.telekom.de/telekom-shops/terminvereinbarung/#/service-selection?customertype=pk&vpnr=4000616182" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg> Termin</a>
   </div>
+
+  <a class="wa-float" href="https://wa.me/496654918600?text=Hallo%20MAMEI%2C%20ich%20habe%20eine%20Frage%3A%20" target="_blank" rel="noopener noreferrer" aria-label="Per WhatsApp schreiben: 06654 918600" title="Per WhatsApp schreiben"><img src="assets/img/whatsapp.png" width="72" height="72" alt="" loading="lazy"></a>
 
   <script src="assets/js/main.js" defer></script>
 </body>

@@ -1,24 +1,7 @@
 /* MAMEI Elektronik – main.js
-   Kein Tracking, keine externen Dienste. Nur: Menü, Dark Mode, Öffnungsstatus, Formulare. */
+   Kein Tracking, keine externen Dienste. Nur: Menü, Öffnungsstatus, Formulare. */
 (function () {
   "use strict";
-
-  /* ---------- Theme (hell/dunkel) ----------
-     Gespeichert wird ausschließlich die Wahl des Nutzers in localStorage ("mamei-theme").
-     Ohne Wahl folgt die Seite der Systemeinstellung. */
-  var root = document.documentElement;
-  var mq = window.matchMedia("(prefers-color-scheme: dark)");
-  function applyTheme(t) { root.setAttribute("data-theme", t); }
-  function storedTheme() { try { return localStorage.getItem("mamei-theme"); } catch (e) { return null; } }
-  applyTheme(storedTheme() || "light");
-  
-  document.querySelectorAll(".theme-toggle").forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
-      applyTheme(next);
-      try { localStorage.setItem("mamei-theme", next); } catch (e) { /* privat/gesperrt: ignorieren */ }
-    });
-  });
 
   /* ---------- Header-Schatten beim Scrollen ---------- */
   var header = document.querySelector(".site-header");
@@ -27,17 +10,24 @@
     onScroll(); window.addEventListener("scroll", onScroll, { passive: true });
   }
 
+  /* ---------- Schwebender WhatsApp-Button: erscheint beim Scrollen ---------- */
+  var wa = document.querySelector(".wa-float");
+  if (wa) {
+    var waToggle = function () { wa.classList.toggle("is-visible", window.scrollY > 320); };
+    waToggle(); window.addEventListener("scroll", waToggle, { passive: true });
+  }
+
   /* ---------- Mobiles Menü ---------- */
-  var toggle = document.querySelector(".nav-toggle");
-  var nav = document.getElementById("nav");
-  if (toggle && nav) {
+  var toggle = document.getElementById("menuToggle");
+  var menu = document.getElementById("mobileMenu");
+  if (toggle && menu) {
     toggle.addEventListener("click", function () {
-      var open = nav.classList.toggle("open");
+      var open = menu.classList.toggle("is-open");
       toggle.setAttribute("aria-expanded", String(open));
       toggle.setAttribute("aria-label", open ? "Menü schließen" : "Menü öffnen");
     });
-    nav.querySelectorAll("a").forEach(function (a) { a.addEventListener("click", function () { nav.classList.remove("open"); toggle.setAttribute("aria-expanded", "false"); }); });
-    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && nav.classList.contains("open")) { nav.classList.remove("open"); toggle.setAttribute("aria-expanded", "false"); toggle.focus(); } });
+    menu.querySelectorAll("a").forEach(function (a) { a.addEventListener("click", function () { menu.classList.remove("is-open"); toggle.setAttribute("aria-expanded", "false"); }); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && menu.classList.contains("is-open")) { menu.classList.remove("is-open"); toggle.setAttribute("aria-expanded", "false"); toggle.focus(); } });
   }
 
   /* ---------- Öffnungszeiten ----------
@@ -92,11 +82,11 @@
         consent.focus();
         return;
       }
-      var contact = form.querySelector('input[name="kontakt"]');
-      if (contact && contact.value.trim().length < 5) {
+      var tel = form.querySelector('input[name="telefon"]');
+      if (tel && tel.value.replace(/\D/g, "").length < 6) {
         e.preventDefault();
-        if (err) { err.textContent = "Bitte gib eine Telefonnummer oder E-Mail-Adresse an, damit wir dich erreichen können."; err.classList.add("is-visible"); }
-        contact.focus();
+        if (err) { err.textContent = "Bitte gib eine Telefonnummer an, unter der wir dich für die Terminbestätigung erreichen."; err.classList.add("is-visible"); }
+        tel.focus();
         return;
       }
       var btn = form.querySelector('button[type="submit"]');

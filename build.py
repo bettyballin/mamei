@@ -7,7 +7,14 @@ SITE = "https://mamei.de"
 PHONE_DISPLAY = "06654 9186 00"
 PHONE_TEL = "+496654918600"
 MAIL = "info@mamei.de"
-BOOKING = "index.html#termin"   # später ggf. Link auf Buchungstool
+# Telekom-Terminbuchung: Direktlink in die Terminvereinbarung des Shops (vpnr = Partnernummer von MAMEI).
+# Alternative mit einem Klick mehr: die Shopseite https://shopseite.telekom.de/sued-west/gersfeld/ursinusstr-13
+BOOKING_PORTAL = "https://www.telekom.de/telekom-shops/terminvereinbarung/#/service-selection?customertype=pk&vpnr=4000616182"
+SHOP_PAGE = "https://shopseite.telekom.de/sued-west/gersfeld/ursinusstr-13"
+WHATSAPP = "https://wa.me/496654918600?text=Hallo%20MAMEI%2C%20ich%20habe%20eine%20Frage%3A%20"
+WA_DISPLAY = "06654 918600"
+BOOKING = BOOKING_PORTAL
+EXT = 'target="_blank" rel="noopener noreferrer"'
 
 I = {
  "phone": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6.2 6.2l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>',
@@ -23,6 +30,7 @@ I = {
  "rocket": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 15l-1 5 5-1 9.5-9.5a3.5 3.5 0 0 0-5-5L4 14"/><path d="M14 6l4 4"/><path d="M9 11l4 4"/></svg>',
  "diamond": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20M10 3l2 6 2-6M12 9v12"/></svg>',
  "cog": '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
+ "whatsapp": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3.5A11.9 11.9 0 0 0 3.1 18.1L2 22l4-1a11.9 11.9 0 0 0 17.6-10.4 11.8 11.8 0 0 0-3.1-7.1z"/><path d="M8.6 7.9c.2-.4.5-.4.8-.4h.6c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .6l-.6.8c-.1.2-.3.4-.1.7a8 8 0 0 0 3.6 3.5c.3.1.5.1.7-.1l.9-1c.2-.2.4-.2.6-.1l2 .9c.3.1.5.2.5.4 0 .3 0 1-.4 1.6-.5.6-1.4 1.1-2 1.2-.6.1-1.3.1-2.2-.2a12 12 0 0 1-4.2-2.6 12 12 0 0 1-2.6-4c-.3-.8-.3-1.6-.2-2.1.1-.6.5-1.2 1.2-1.7z"/></svg>',
  "menu": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>',
 }
 
@@ -84,7 +92,7 @@ def header(current=""):
       </nav>
       <div class="header-actions">
         <a class="header-phone" href="tel:{PHONE_TEL}">{I["phone"]} {PHONE_DISPLAY}</a>
-        <a class="button button-primary" href="{BOOKING}">{I["cal"]} Beratungstermin</a>
+        <a class="button button-primary" href="{BOOKING}" {EXT}>{I["cal"]} Termin buchen</a>
         <button class="icon-button menu-toggle" id="menuToggle" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobileMenu">{I["menu"]}</button>
       </div>
     </div>
@@ -92,7 +100,7 @@ def header(current=""):
       <a href="index.html#leistungen">Leistungen</a>
       <a href="baumontage.html">Baumontage</a>
       <a href="index.html#ueber-uns">Über uns</a>
-      <a href="index.html#termin">Beratungstermin</a>
+      <a href="{BOOKING}" {EXT}>Online Termin buchen ↗</a>
       <a href="index.html#kontakt">Kontakt &amp; Öffnungszeiten</a>
       <a href="tel:{PHONE_TEL}">Anrufen: {PHONE_DISPLAY}</a>
     </nav>
@@ -107,7 +115,7 @@ def footer():
   <footer class="site-footer wrap">
     <div>
       <strong>MAMEI Elektronik GmbH · Telekom Partner Shop Gersfeld</strong>
-      <address>Ursinusstr. 13, 36129 Gersfeld (Rhön) · <a href="tel:{PHONE_TEL}">{PHONE_DISPLAY}</a> · <a href="mailto:{MAIL}">{MAIL}</a></address>
+      <address>Ursinusstr. 13, 36129 Gersfeld (Rhön) · <a href="tel:{PHONE_TEL}">{PHONE_DISPLAY}</a> · <a href="{WHATSAPP}" {EXT}>WhatsApp</a> · <a href="mailto:{MAIL}">{MAIL}</a></address>
     </div>
     <div class="footer-links">
       <a href="index.html#kontakt">Öffnungszeiten</a>
@@ -122,8 +130,10 @@ def footer():
 
   <div class="mobile-bar" aria-label="Schnellkontakt">
     <a class="button button-outline" href="tel:{PHONE_TEL}">{I["phone"]} Anrufen</a>
-    <a class="button button-primary" href="{BOOKING}">{I["cal"]} Termin</a>
+    <a class="button button-primary" href="{BOOKING}" {EXT}>{I["cal"]} Termin</a>
   </div>
+
+  <a class="wa-float" href="{WHATSAPP}" {EXT} aria-label="Per WhatsApp schreiben: {WA_DISPLAY}" title="Per WhatsApp schreiben"><img src="assets/img/whatsapp.png" width="72" height="72" alt="" loading="lazy"></a>
 
   <script src="assets/js/main.js" defer></script>
 </body>
@@ -161,9 +171,10 @@ def form(kind, note):
           <div class="hp" aria-hidden="true"><label>Firma <input type="text" name="firma" tabindex="-1" autocomplete="off"></label></div>
           <p class="form-note">{note}</p>
           <div class="form-row">
-            <label>Dein Name<input type="text" name="name" required autocomplete="name" maxlength="120"></label>
-            <label>Telefon oder E-Mail<input type="text" name="kontakt" required autocomplete="tel" maxlength="160" placeholder="Wie erreichen wir dich am besten?"></label>
+            <label>Dein Name <span class="req" aria-hidden="true">*</span><input type="text" name="name" required autocomplete="name" maxlength="120"></label>
+            <label>Telefonnummer <span class="req" aria-hidden="true">*</span><input type="tel" name="telefon" required autocomplete="tel" inputmode="tel" maxlength="40" placeholder="Für den Rückruf"></label>
           </div>
+          <label>E-Mail <span class="optional">(optional)</span><input type="email" name="email" autocomplete="email" maxlength="160" placeholder="Falls du lieber eine schriftliche Bestätigung möchtest"></label>
           <div class="form-row">{extra}
           </div>
           <label>Deine Nachricht <span class="optional">(optional)</span>
@@ -174,8 +185,8 @@ def form(kind, note):
             <span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung meiner Anfrage verarbeitet werden. Hinweise dazu in der <a href="datenschutz.html">Datenschutzerklärung</a>.</span>
           </label>
           <p class="form-error" role="alert" aria-live="polite"></p>
-          <button class="button button-primary" type="submit">Anfrage senden</button>
-          <p class="form-note">Wir melden uns in der Regel innerhalb eines Werktags. Kein Newsletter, keine Weitergabe.</p>
+          <button class="button button-primary" type="submit">Terminwunsch senden</button>
+          <p class="form-note"><span class="req">*</span> Pflichtfeld. Wir melden uns in der Regel innerhalb eines Werktags. Kein Newsletter, keine Weitergabe.</p>
         </form>"""
 
 LD = """  <script type="application/ld+json">
@@ -205,11 +216,12 @@ INDEX = f"""      <section class="hero" aria-labelledby="hero-title">
         <div>
           <p class="eyebrow">Dein Telekom Partner Shop in Gersfeld</p>
           <h1 id="hero-title">Handys, Tarife und persönliche Beratung <span class="highlight">– direkt vor Ort.</span></h1>
-          <p class="hero-copy">Das passende Smartphone, den richtigen Tarif und einen Service, auf den du dich verlassen kannst – bei MAMEI Elektronik in Gersfeld, seit 1994.</p>
+          <p class="hero-copy">Buch dir einen Termin, und wir nehmen uns Zeit nur für dich: Smartphone, Tarif, Internet oder Reparatur – ohne Wartezeit, bei MAMEI Elektronik in Gersfeld.</p>
           <div class="hero-actions">
-            <a class="button button-primary" href="#termin">{I["cal"]} Jetzt Termin vereinbaren</a>
-            <a class="button button-outline" href="tel:{PHONE_TEL}">{I["phone"]} {PHONE_DISPLAY}</a>
+            <a class="button button-primary" href="{BOOKING}" {EXT}>{I["cal"]} Jetzt online Termin buchen</a>
+            <a class="button button-outline" href="#termin">Terminwunsch senden</a>
           </div>
+          <p class="hero-hint">Lieber anrufen oder schreiben? <a href="tel:{PHONE_TEL}">{PHONE_DISPLAY}</a> · <a href="{WHATSAPP}" {EXT}>WhatsApp</a></p>
           <div class="usps" aria-label="Das zeichnet uns aus">
             <div class="usp">{I["rocket"]}<span>Persönliche<br>Beratung</span></div>
             <div class="usp">{I["diamond"]}<span>Top-Tarife<br>der Telekom</span></div>
@@ -219,6 +231,23 @@ INDEX = f"""      <section class="hero" aria-labelledby="hero-title">
         <div class="hero-visual">
           <img class="hero-image" src="assets/img/hero-smartphone.jpg" width="1400" height="933" alt="Aktuelles Smartphone im Telekom Partner Shop" fetchpriority="high">
           <span class="hero-status" data-open-status><i class="status-dot" aria-hidden="true"></i><span data-open-text>Öffnungszeiten siehe unten</span></span>
+        </div>
+      </section>
+
+      <section class="section" id="termin" aria-labelledby="termin-title">
+        <div class="split">
+          <div class="panel panel-dark">
+            <p class="eyebrow">Termin vereinbaren</p>
+            <h2 id="termin-title">Online buchen, wir halten dir die Zeit frei.</h2>
+            <p>Wähl im Telekom-Buchungsportal einfach Tag und Uhrzeit, und wir sind vorbereitet, wenn du kommst. Für Beratungen zu Tarif, Internet oder Smart Home ist das der entspannteste Weg.</p>
+            <a class="button button-primary button-light-on-dark" href="{BOOKING}" {EXT}>{I["cal"]} Jetzt online Termin buchen ↗</a>
+            <div class="contact-list">
+              <a href="tel:{PHONE_TEL}">{I["phone"]}<span>{PHONE_DISPLAY}<small>Telefonisch zu den Öffnungszeiten</small></span></a>
+              <a href="mailto:{MAIL}?subject=Terminanfrage">{I["mail"]}<span>{MAIL}<small>Wir antworten werktags</small></span></a>
+              <a href="#kontakt">{I["pin"]}<span>Ursinusstr. 13, 36129 Gersfeld<small>Oder einfach vorbeikommen</small></span></a>
+            </div>
+          </div>
+{form("termin", "Kein passender Slot dabei? Schick uns deinen Terminwunsch – wir rufen zurück und bestätigen.")}
         </div>
       </section>
 
@@ -328,22 +357,6 @@ INDEX = f"""      <section class="hero" aria-labelledby="hero-title">
         </div>
       </section>
 
-      <section class="section" id="termin" aria-labelledby="termin-title">
-        <div class="split">
-          <div class="panel panel-dark">
-            <p class="eyebrow">Termin vereinbaren</p>
-            <h2 id="termin-title">Lieber mit Termin? Gern.</h2>
-            <p>Für Beratungen zu Tarif, Internet oder Smart Home lohnt sich ein fester Termin – dann haben wir Zeit nur für dich. Reparaturen und kurze Fragen gehen auch ohne.</p>
-            <div class="contact-list">
-              <a href="tel:{PHONE_TEL}">{I["phone"]}<span>{PHONE_DISPLAY}<small>Anrufen zu den Öffnungszeiten</small></span></a>
-              <a href="mailto:{MAIL}?subject=Terminanfrage">{I["mail"]}<span>{MAIL}<small>Wir antworten werktags</small></span></a>
-              <a href="#kontakt">{I["pin"]}<span>Ursinusstr. 13, 36129 Gersfeld<small>Einfach vorbeikommen</small></span></a>
-            </div>
-          </div>
-{form("termin", "Oder du schickst uns deinen Terminwunsch – wir bestätigen per Telefon oder E-Mail.")}
-        </div>
-      </section>
-
       <section class="section" aria-labelledby="faq-title">
         <div class="section-heading"><h2 id="faq-title">Häufige Fragen</h2></div>
         <div class="faq">
@@ -370,7 +383,7 @@ INDEX = f"""      <section class="hero" aria-labelledby="hero-title">
           </div>
           <div class="contact-card">
             <h3>{I["phone"]} Erreichbarkeit</h3>
-            <p>Telefon: <a href="tel:{PHONE_TEL}">{PHONE_DISPLAY}</a><br>E-Mail: <a href="mailto:{MAIL}">{MAIL}</a></p>
+            <p>Telefon: <a href="tel:{PHONE_TEL}">{PHONE_DISPLAY}</a><br>WhatsApp: <a href="{WHATSAPP}" {EXT}>{WA_DISPLAY}</a><br>E-Mail: <a href="mailto:{MAIL}">{MAIL}</a></p>
             <p>Außerhalb der Öffnungszeiten: Schreib uns eine E-Mail oder nutze das <a href="#termin">Terminformular</a> – wir melden uns am nächsten Werktag.</p>
           </div>
         </div>
@@ -425,7 +438,7 @@ BAU = f"""      <section class="hero hero-sub"><div>
               <a href="mailto:{MAIL}?subject=Anfrage%20Baumontage">{I["mail"]}<span>{MAIL}<small>Pläne oder Fotos gern als Anhang</small></span></a>
             </div>
           </div>
-{form("baumontage", "Anfrage für Baumontage – wir melden uns mit einem Terminvorschlag.")}
+{form("baumontage", "Anfrage für Baumontage – wir rufen zurück und schlagen einen Vor-Ort-Termin vor.")}
         </div>
       </section>
 
@@ -462,6 +475,8 @@ IMPRESSUM = f"""      <section class="hero hero-sub"><div>
         <p>Die Inhalte dieser Website wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt.</p>
         <h2>Haftung für Links</h2>
         <p>Unsere Website enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Für diese fremden Inhalte übernehmen wir keine Gewähr; verantwortlich ist stets der jeweilige Anbieter oder Betreiber. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen.</p>
+        <h2>Bildnachweise</h2>
+        <p>WhatsApp-Icon: <a href="https://www.flaticon.com/free-icons/whatsapp" title="whatsapp icons" target="_blank" rel="noopener noreferrer">Whatsapp icons created by Xinh Studio – Flaticon</a>. Übrige Fotos und Grafiken: MAMEI Elektronik GmbH.</p>
         <h2>Urheberrecht</h2>
         <p>Die durch uns erstellten Inhalte und Werke auf dieser Website unterliegen dem deutschen Urheberrecht. Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechts bedürfen der schriftlichen Zustimmung. „Telekom“ und das Telekom-Logo sind Marken der Deutsche Telekom AG; ihre Verwendung erfolgt im Rahmen der Partnerschaft.</p>
       </section>
@@ -481,7 +496,7 @@ DATENSCHUTZ = f"""      <section class="hero hero-sub"><div>
         <p>Beim Aufruf der Website erhebt der Hoster automatisch Informationen in sogenannten Server-Logfiles: IP-Adresse (gekürzt bzw. nach kurzer Zeit gelöscht), Datum und Uhrzeit, aufgerufene Seite, übertragene Datenmenge, Browsertyp und -version, Betriebssystem, Referrer-URL. Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. Unser berechtigtes Interesse liegt in der technisch fehlerfreien Darstellung, der Sicherheit und der Stabilität der Website. Die Logfiles werden nach spätestens sieben Tagen gelöscht, sofern sie nicht zur Aufklärung eines Sicherheitsvorfalls benötigt werden.</p>
         <h2>3. Kontaktaufnahme</h2>
         <h3>Kontakt- und Terminformulare</h3>
-        <p>Wenn du uns über das Terminformular oder die Baumontage-Anfrage kontaktierst, verarbeiten wir die von dir eingegebenen Angaben (Name, Telefonnummer oder E-Mail-Adresse, Thema, Nachricht sowie Zeitpunkt der Anfrage) ausschließlich zur Bearbeitung deiner Anfrage. Die Angaben werden per E-Mail an unser Postfach übermittelt und dort gespeichert. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Anbahnung eines Vertrags) bzw. Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Beantwortung von Anfragen). Die Daten werden gelöscht, sobald die Anfrage abschließend bearbeitet ist und keine gesetzlichen Aufbewahrungspflichten entgegenstehen, spätestens jedoch nach zwölf Monaten.</p>
+        <p>Wenn du uns über das Terminformular oder die Baumontage-Anfrage kontaktierst, verarbeiten wir die von dir eingegebenen Angaben (Name, Telefonnummer, optional E-Mail-Adresse, Thema, Nachricht sowie Zeitpunkt der Anfrage) ausschließlich zur Bearbeitung deiner Anfrage. Die Angaben werden per E-Mail an unser Postfach übermittelt und dort gespeichert. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Anbahnung eines Vertrags) bzw. Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Beantwortung von Anfragen). Die Daten werden gelöscht, sobald die Anfrage abschließend bearbeitet ist und keine gesetzlichen Aufbewahrungspflichten entgegenstehen, spätestens jedoch nach zwölf Monaten.</p>
         <p>Zum Schutz vor automatisierten Anfragen prüfen die Formulare ein verstecktes Feld und die Ausfüllzeit. Dabei werden keine externen Dienste eingesetzt und keine Daten an Dritte übermittelt.</p>
         <h3>E-Mail und Telefon</h3>
         <p>Wenn du uns per E-Mail oder Telefon kontaktierst, verarbeiten wir deine Angaben zur Bearbeitung des Anliegens (Art. 6 Abs. 1 lit. b und f DSGVO). Unsere E-Mail-Postfächer werden ebenfalls bei ALL-INKL.COM in Deutschland betrieben.</p>
@@ -489,8 +504,10 @@ DATENSCHUTZ = f"""      <section class="hero hero-sub"><div>
         <p>Diese Website setzt keine Cookies, speichert nichts im Browser und verwendet keine Analyse-, Tracking- oder Werbedienste. Es werden keine Daten an Google, Meta oder andere Drittanbieter übermittelt.</p>
         <h2>5. Schriftarten und Grafiken</h2>
         <p>Die verwendete Schriftart (Inter, SIL Open Font License) sowie alle Bilder und Icons werden von unserem eigenen Server ausgeliefert. Es werden keine Schriften von Google Fonts oder anderen externen Servern nachgeladen.</p>
-        <h2>6. Externe Links</h2>
-        <p>Für die Routenplanung verlinken wir auf OpenStreetMap. Der Link öffnet erst nach deinem Klick eine externe Website; vorher werden keine Daten an den Anbieter übertragen. Für die Inhalte verlinkter Seiten gelten die Datenschutzhinweise des jeweiligen Anbieters.</p>
+        <h2>5a. Kontakt per WhatsApp</h2>
+        <p>Du kannst uns auch per WhatsApp erreichen. Der Link auf unserer Website öffnet WhatsApp erst nach deinem Klick; bis dahin werden keine Daten an WhatsApp übertragen. Wenn du uns über WhatsApp schreibst, verarbeiten wir deine Nachricht und deine Telefonnummer zur Bearbeitung deines Anliegens (Art. 6 Abs. 1 lit. b und f DSGVO). Anbieter des Dienstes ist die WhatsApp Ireland Limited, 4 Grand Canal Square, Dublin 2, Irland; es gelten deren <a href="https://www.whatsapp.com/legal/privacy-policy-eea" target="_blank" rel="noopener noreferrer">Datenschutzhinweise</a>. Wir nutzen WhatsApp ausschließlich zur Kommunikation mit Kunden, die uns dort anschreiben, und löschen Chatverläufe, sobald das Anliegen erledigt ist. Wer das nicht möchte, erreicht uns genauso per Telefon, E-Mail oder Formular.</p>
+        <h2>6. Externe Links und Online-Terminbuchung</h2>
+        <p>Die Online-Terminbuchung erfolgt über ein externes Buchungsportal, das wir verlinken. Erst mit dem Klick auf den Link verlässt du unsere Website; Anbieter des Buchungsportals ist die Telekom Deutschland GmbH, Landgrabenweg 151, 53227 Bonn; für die Verarbeitung deiner Daten dort gelten die <a href="https://www.telekom.de/ueber-das-unternehmen/datenschutz" target="_blank" rel="noopener noreferrer">Datenschutzhinweise der Telekom</a>. Für die Routenplanung verlinken wir auf OpenStreetMap. Der Link öffnet erst nach deinem Klick eine externe Website; vorher werden keine Daten an den Anbieter übertragen. Für die Inhalte verlinkter Seiten gelten die Datenschutzhinweise des jeweiligen Anbieters.</p>
         <h2>7. Deine Rechte</h2>
         <p>Du hast gegenüber uns folgende Rechte hinsichtlich der dich betreffenden personenbezogenen Daten:</p>
         <ul>
