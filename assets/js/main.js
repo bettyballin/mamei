@@ -17,6 +17,28 @@
     waToggle(); window.addEventListener("scroll", waToggle, { passive: true });
   }
 
+  /* ---------- Hero-Slideshow: 3 Bilder, Überblendung alle 5 s ---------- */
+  var slides = document.querySelector("[data-slideshow]");
+  if (slides) {
+    var imgs = slides.querySelectorAll(".hero-image");
+    var dots = document.querySelectorAll(".hero-dots button");
+    var idx = 0, timer = null;
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var show = function (n) {
+      idx = (n + imgs.length) % imgs.length;
+      imgs.forEach(function (im, i) { im.classList.toggle("is-active", i === idx); });
+      dots.forEach(function (d, i) { d.classList.toggle("is-active", i === idx); d.setAttribute("aria-selected", String(i === idx)); });
+    };
+    var start = function () { if (!reduce && !timer) timer = setInterval(function () { show(idx + 1); }, 5000); };
+    var stop = function () { if (timer) { clearInterval(timer); timer = null; } };
+    dots.forEach(function (d, i) { d.addEventListener("click", function () { show(i); stop(); start(); }); });
+    var visual = slides.parentElement;
+    visual.addEventListener("mouseenter", stop); visual.addEventListener("mouseleave", start);
+    visual.addEventListener("focusin", stop); visual.addEventListener("focusout", start);
+    document.addEventListener("visibilitychange", function () { document.hidden ? stop() : start(); });
+    start();
+  }
+
   /* ---------- Mobiles Menü ---------- */
   var toggle = document.getElementById("menuToggle");
   var menu = document.getElementById("mobileMenu");

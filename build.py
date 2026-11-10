@@ -229,7 +229,16 @@ INDEX = f"""      <section class="hero" aria-labelledby="hero-title">
           </div>
         </div>
         <div class="hero-visual">
-          <img class="hero-image" src="assets/img/hero-smartphone.jpg" width="1400" height="933" alt="Aktuelles Smartphone im Telekom Partner Shop" fetchpriority="high">
+          <div class="hero-slides" data-slideshow aria-label="Eindrücke aus dem Laden">
+            <img class="hero-image is-active" src="assets/img/hero-laden.jpg" width="1600" height="747" alt="Der Laden von MAMEI Elektronik in Gersfeld: Beratungstheke und Vitrinen mit Smartphones" fetchpriority="high">
+            <img class="hero-image" src="assets/img/hero-zubehoer.jpg" width="1600" height="900" alt="Zubehörwand mit Hüllen und Schutzfolien bei MAMEI Elektronik" loading="lazy" decoding="async">
+            <img class="hero-image" src="assets/img/hero-theke.jpg" width="1600" height="747" alt="Verkaufstheke mit Telekom-Angeboten und Geräten bei MAMEI Elektronik" loading="lazy" decoding="async">
+          </div>
+          <div class="hero-dots" role="tablist" aria-label="Bild wählen">
+            <button type="button" class="is-active" role="tab" aria-selected="true" aria-label="Bild 1"></button>
+            <button type="button" role="tab" aria-selected="false" aria-label="Bild 2"></button>
+            <button type="button" role="tab" aria-selected="false" aria-label="Bild 3"></button>
+          </div>
           <span class="hero-status" data-open-status><i class="status-dot" aria-hidden="true"></i><span data-open-text>Öffnungszeiten siehe unten</span></span>
         </div>
       </section>
