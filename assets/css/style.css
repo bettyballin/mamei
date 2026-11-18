@@ -261,11 +261,21 @@ textarea { min-height: 110px; resize: vertical; }
 .hours .closed { color: var(--muted); font-style: italic; }
 
 /* ---------- Footer ---------- */
-.site-footer { margin-top: 40px; padding: 28px 0 24px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 14px 24px; justify-content: space-between; align-items: flex-end; }
+.site-footer { margin-top: 40px; padding: 28px 0 24px; border-top: 1px solid var(--line); display: grid; gap: 18px; }
 .site-footer strong { display: block; margin-bottom: 4px; font-size: 15px; font-weight: 800; letter-spacing: -.02em; }
 .site-footer address { color: var(--muted); font-size: 13px; }
 .footer-links { display: flex; flex-wrap: wrap; gap: 6px 18px; color: var(--muted); font-size: 13px; }
 .footer-links a:hover { color: var(--accent); }
+.footer-bottom { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 14px 24px; }
+.footer-social { display: flex; gap: 10px; }
+.footer-social a {
+  width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%;
+  border: 1px solid var(--line); background: var(--surface); color: var(--accent); transition: background .2s, color .2s, border-color .2s, transform .2s;
+}
+.footer-social a:hover { background: var(--accent); border-color: var(--accent); color: #fff; transform: translateY(-1px); }
+.footer-social svg { width: 19px; height: 19px; }
+.footer-copy { justify-self: end; color: var(--muted); font-size: 13px; white-space: nowrap; }
+.footer-copy a:hover { color: var(--accent); }
 
 /* ---------- Unterseiten ---------- */
 .hero.hero-sub { grid-template-columns: 1fr; padding-bottom: clamp(32px, 5vw, 56px); }
@@ -285,16 +295,7 @@ textarea { min-height: 110px; resize: vertical; }
 .mobile-bar { display: none; position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 60; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 10px; gap: 8px; box-shadow: var(--shadow); }
 .mobile-bar a { flex: 1; min-height: 46px; font-size: 14px; }
 
-/* ---------- Social-Media-Reiter rechts (wie auf der bisherigen Website) ---------- */
-.social-tab {
-  position: fixed; right: 0; top: 50%; z-index: 65; transform: translateY(-50%);
-  display: flex; flex-direction: column; gap: 4px; padding: 10px 6px;
-  background: var(--accent); border-radius: 14px 0 0 14px; box-shadow: var(--shadow);
-}
-.social-tab a { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 10px; color: #fff; transition: background .2s; }
-.social-tab a:hover { background: rgba(255, 255, 255, .14); }
-.social-tab a:focus-visible { outline: 2px solid #fff; outline-offset: 0; }
-.social-tab svg { width: 24px; height: 24px; }
+/* ---------- Social-Media-Symbole (Footer) ---------- */
 .social-fb svg { fill: currentColor; stroke: none; }
 .social-ig svg { fill: none; stroke: currentColor; stroke-width: 1.9; }
 .social-ig svg circle:last-child { fill: currentColor; }
@@ -356,6 +357,7 @@ textarea { min-height: 110px; resize: vertical; }
   .about-grid .offer-image { aspect-ratio: 16 / 10; }
   .section-heading { flex-direction: column; align-items: flex-start; gap: 6px; }
   .reveal.reveal-left, .reveal.reveal-right { transform: translate3d(0, 28px, 0); }
+  .site-footer { padding-bottom: 96px; } /* Platz für den WhatsApp-Button */
 }
 @media (max-width: 640px) {
   .wrap { width: min(100% - 24px, 1240px); }
@@ -388,8 +390,8 @@ textarea { min-height: 110px; resize: vertical; }
   .mobile-bar { display: flex; }
   body { padding-bottom: 80px; }
   .wa-float { right: 14px; bottom: 86px; width: 52px; height: 52px; }
-  .social-tab { display: none; } /* auf dem Handy: Links im Footer */
-  .site-footer { flex-direction: column; align-items: flex-start; }
+  .footer-bottom { grid-template-columns: 1fr; justify-items: start; }
+  .footer-copy { justify-self: start; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -397,6 +399,6 @@ textarea { min-height: 110px; resize: vertical; }
   .button-pulse, .wa-float { animation: none; }
 }
 @media print {
-  .site-header, .mobile-bar, .hero-actions, .social-tab, .wa-float { display: none !important; }
+  .site-header, .mobile-bar, .hero-actions, .wa-float { display: none !important; }
   .reveal, .reveal .step-num { opacity: 1 !important; transform: none !important; }
 }

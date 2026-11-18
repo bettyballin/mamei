@@ -121,16 +121,19 @@ def footer():
       <strong>MAMEI Elektronik GmbH · Telekom Partner Shop Gersfeld</strong>
       <address>Ursinusstr. 13, 36129 Gersfeld (Rhön) · <a href="tel:{PHONE_TEL}">{PHONE_DISPLAY}</a> · <a href="{WHATSAPP}" {EXT}>WhatsApp</a> · <a href="mailto:{MAIL}">{MAIL}</a></address>
     </div>
-    <div class="footer-links">
-      <a href="index.html#kontakt">Öffnungszeiten</a>
-      <a href="index.html#kontakt">Anfahrt</a>
-      <a href="baumontage.html">Baumontage</a>
-      <a href="impressum.html">Impressum</a>
-      <a href="datenschutz.html">Datenschutz</a>
-      <a href="{FACEBOOK}" {EXT}>Facebook</a>
-      <a href="{INSTAGRAM}" {EXT}>Instagram</a>
-      <span>© <span data-year>2026</span></span>
-      <a href="https://bballin.me/" target="_blank" rel="noopener noreferrer author" title="Website von Bettina Ballin">Bettina Ballin</a>
+    <div class="footer-bottom">
+      <nav class="footer-links" aria-label="Footer">
+        <a href="index.html#kontakt">Öffnungszeiten</a>
+        <a href="index.html#kontakt">Anfahrt</a>
+        <a href="baumontage.html">Baumontage</a>
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutz</a>
+      </nav>
+      <div class="footer-social">
+        <a class="social-fb" href="{FACEBOOK}" {EXT} aria-label="MAMEI Elektronik auf Facebook" title="Facebook">{I["facebook"]}</a>
+        <a class="social-ig" href="{INSTAGRAM}" {EXT} aria-label="MAMEI Elektronik auf Instagram" title="Instagram">{I["instagram"]}</a>
+      </div>
+      <p class="footer-copy">© <span data-year>2026</span> · <a href="https://bballin.me/" target="_blank" rel="noopener noreferrer author" title="Website von Bettina Ballin">Bettina Ballin</a></p>
     </div>
   </footer>
 
@@ -138,11 +141,6 @@ def footer():
     <a class="button button-outline" href="tel:{PHONE_TEL}">{I["phone"]} Anrufen</a>
     <a class="button button-primary" href="{BOOKING}" {EXT}>{I["cal"]} Termin</a>
   </div>
-
-  <nav class="social-tab" aria-label="MAMEI in sozialen Netzwerken">
-    <a class="social-fb" href="{FACEBOOK}" {EXT} aria-label="MAMEI Elektronik auf Facebook" title="Facebook">{I["facebook"]}</a>
-    <a class="social-ig" href="{INSTAGRAM}" {EXT} aria-label="MAMEI Elektronik auf Instagram" title="Instagram">{I["instagram"]}</a>
-  </nav>
 
   <a class="wa-float" href="{WHATSAPP}" {EXT} aria-label="Per WhatsApp schreiben: {WA_DISPLAY}" title="Per WhatsApp schreiben"><svg viewBox="0 0 1024 1024" aria-hidden="true" focusable="false"><rect width="1024" height="1024" rx="265" fill="#00DB40"/><path fill="#fff" d="M522 141C320.419 141 157 304.419 157 506C157 572.322 174.689 634.507 205.606 688.101L157 871L346.617 826.173C398.664 854.744 458.429 871 522 871C723.581 871 887 707.581 887 506C887 304.419 723.581 141 522 141ZM522 805.624C460.998 805.624 404.254 787.388 356.919 756.079L244.891 784.61L276.314 677.536C242.322 628.944 222.376 569.801 222.376 506C222.376 340.52 356.52 206.376 522 206.376C687.48 206.376 821.624 340.52 821.624 506C821.624 671.48 687.48 805.624 522 805.624Z"/><path fill="#fff" d="M607.527 554.187L695.836 595.825C699.892 597.737 702.488 601.847 702.123 606.315C701.163 617.934 696.506 641.226 675.626 662.099C616.692 721.033 510.876 654.36 506.577 651.778C480.554 637.799 455.815 619.09 432.374 595.642C408.933 572.201 390.217 547.462 376.238 521.439C373.656 517.14 306.983 411.317 365.917 352.39C386.796 331.51 410.082 326.853 421.701 325.893C426.169 325.528 430.279 328.124 432.192 332.18L473.829 420.489C475.802 424.667 474.937 429.635 471.666 432.899L440.627 463.938C433.915 470.65 431.942 481.1 436.565 489.393C447.887 509.705 463.115 529.259 480.764 547.252C498.757 564.894 518.318 580.129 538.623 591.451C546.917 596.075 557.366 594.108 564.078 587.389L595.117 556.35C598.381 553.086 603.35 552.221 607.527 554.187Z"/></svg></a>
 
