@@ -286,6 +286,20 @@ textarea { min-height: 110px; resize: vertical; }
 .mobile-bar { display: none; position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 60; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 10px; gap: 8px; box-shadow: var(--shadow); }
 .mobile-bar a { flex: 1; min-height: 46px; font-size: 14px; }
 
+/* ---------- Social-Media-Reiter rechts (wie auf der bisherigen Website) ---------- */
+.social-tab {
+  position: fixed; right: 0; top: 50%; z-index: 65; transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 4px; padding: 10px 6px;
+  background: var(--accent); border-radius: 14px 0 0 14px; box-shadow: var(--shadow);
+}
+.social-tab a { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 10px; color: #fff; transition: background .2s; }
+.social-tab a:hover { background: rgba(255, 255, 255, .14); }
+.social-tab a:focus-visible { outline: 2px solid #fff; outline-offset: 0; }
+.social-tab svg { width: 24px; height: 24px; }
+.social-fb svg { fill: currentColor; stroke: none; }
+.social-ig svg { fill: none; stroke: currentColor; stroke-width: 1.9; }
+.social-ig svg circle:last-child { fill: currentColor; }
+
 /* ---------- Schwebender WhatsApp-Button ---------- */
 .wa-float {
   position: fixed; right: 22px; bottom: 22px; z-index: 70; display: block; width: 64px; height: 64px; border-radius: 50%;
@@ -375,6 +389,7 @@ textarea { min-height: 110px; resize: vertical; }
   .mobile-bar { display: flex; }
   body { padding-bottom: 80px; }
   .wa-float { right: 14px; bottom: 86px; width: 54px; height: 54px; }
+  .social-tab { display: none; } /* auf dem Handy: Links im Footer */
   .site-footer { flex-direction: column; align-items: flex-start; }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -383,6 +398,6 @@ textarea { min-height: 110px; resize: vertical; }
   .button-pulse, .wa-float { animation: none; }
 }
 @media print {
-  .site-header, .mobile-bar, .hero-actions { display: none !important; }
+  .site-header, .mobile-bar, .hero-actions, .social-tab, .wa-float { display: none !important; }
   .reveal, .reveal .step-num { opacity: 1 !important; transform: none !important; }
 }

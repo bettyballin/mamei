@@ -12,6 +12,8 @@ MAIL = "info@mamei.de"
 BOOKING_PORTAL = "https://www.telekom.de/telekom-shops/terminvereinbarung/#/service-selection?customertype=pk&vpnr=4000616182"
 SHOP_PAGE = "https://shopseite.telekom.de/sued-west/gersfeld/ursinusstr-13"
 WHATSAPP = "https://wa.me/496654918600?text=Hallo%20MAMEI%2C%20ich%20habe%20eine%20Frage%3A%20"
+FACEBOOK = "https://www.facebook.com/mameielektronik"
+INSTAGRAM = "https://www.instagram.com/mameielektronik/"
 WA_DISPLAY = "06654 918600"
 BOOKING = BOOKING_PORTAL
 EXT = 'target="_blank" rel="noopener noreferrer"'
@@ -31,6 +33,8 @@ I = {
  "router": '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="12.5" width="17" height="8" rx="2"/><path d="M12 16.5h.01"/><path d="M9 9.2a4.3 4.3 0 0 1 6 0M6.6 6.8a7.7 7.7 0 0 1 10.8 0"/><path d="M12 11.6v.9"/></svg>',
  "repair": '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2"/><path d="M13.6 5.5 10.4 9l3.4 2-3.4 3.6"/><path d="M12 18.4h.01"/></svg>',
  "care": '<svg viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(7.4 .4) scale(.47)"><circle cx="12" cy="12" r="3" vector-effect="non-scaling-stroke"/><path vector-effect="non-scaling-stroke" d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></g><path d="M2.5 15h3.2l4.6 1.4h3.2a1.4 1.4 0 0 1 0 2.8H9.8"/><path d="M5.7 20.2l2.6 1h6.2l6.3-4.3a1.5 1.5 0 0 0-1.9-2.3l-3.6 2.3"/></svg>',
+ "facebook": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21.5v-8h2.7l.4-3.2h-3.1V8.3c0-.9.3-1.6 1.6-1.6h1.7V3.9a22 22 0 0 0-2.5-.1c-2.5 0-4.2 1.5-4.2 4.3v2.2H7.4v3.2h2.7v8z"/></svg>',
+ "instagram": '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".6"/></svg>',
  "menu": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>',
 }
 
@@ -123,8 +127,10 @@ def footer():
       <a href="baumontage.html">Baumontage</a>
       <a href="impressum.html">Impressum</a>
       <a href="datenschutz.html">Datenschutz</a>
+      <a href="{FACEBOOK}" {EXT}>Facebook</a>
+      <a href="{INSTAGRAM}" {EXT}>Instagram</a>
       <span>© <span data-year>2026</span></span>
-      <a href="https://bettyballin.github.io/website/en/" target="_blank" rel="noopener noreferrer author" title="Website von Bettina Ballin">Bettina Ballin</a>
+      <a href="https://bballin.me/" target="_blank" rel="noopener noreferrer author" title="Website von Bettina Ballin">Bettina Ballin</a>
     </div>
   </footer>
 
@@ -132,6 +138,11 @@ def footer():
     <a class="button button-outline" href="tel:{PHONE_TEL}">{I["phone"]} Anrufen</a>
     <a class="button button-primary" href="{BOOKING}" {EXT}>{I["cal"]} Termin</a>
   </div>
+
+  <nav class="social-tab" aria-label="MAMEI in sozialen Netzwerken">
+    <a class="social-fb" href="{FACEBOOK}" {EXT} aria-label="MAMEI Elektronik auf Facebook" title="Facebook">{I["facebook"]}</a>
+    <a class="social-ig" href="{INSTAGRAM}" {EXT} aria-label="MAMEI Elektronik auf Instagram" title="Instagram">{I["instagram"]}</a>
+  </nav>
 
   <a class="wa-float" href="{WHATSAPP}" {EXT} aria-label="Per WhatsApp schreiben: {WA_DISPLAY}" title="Per WhatsApp schreiben"><img src="assets/img/whatsapp.png" width="72" height="72" alt="" loading="lazy"></a>
 
