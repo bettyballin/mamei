@@ -36,6 +36,7 @@ body {
   margin: 0; background: var(--page); color: var(--ink);
   font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+  overflow-x: clip; /* horizontale Einblendungen dürfen keinen Querscroll erzeugen */
 }
 a { color: inherit; text-decoration: none; }
 button, input, select, textarea { font: inherit; }
@@ -280,6 +281,27 @@ textarea { min-height: 110px; resize: vertical; }
 .wa-float img { width: 100%; height: 100%; display: block; }
 .wa-float:focus-visible { outline: 3px solid rgba(31, 168, 85, .45); outline-offset: 4px; border-radius: 50%; }
 
+/* ---------- Scroll-Animationen ----------
+   Klassen werden nur per JS gesetzt (main.js) – ohne JS bleibt alles sichtbar.
+   .reveal: Element unterhalb des sichtbaren Bereichs, wartet auf Einblendung.
+   Varianten: .reveal-left / .reveal-right schieben horizontal herein. */
+:root { --ease-out: cubic-bezier(.16, 1, .3, 1); }
+.scroll-progress {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 2px; pointer-events: none;
+  background: linear-gradient(90deg, var(--accent), #8a98c9);
+  transform-origin: 0 50%; transform: scaleX(var(--scroll, 0));
+}
+.reveal {
+  opacity: 0; transform: translate3d(0, 28px, 0);
+  transition: opacity .7s var(--ease-out), transform .9s var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal.reveal-left { transform: translate3d(-40px, 0, 0); }
+.reveal.reveal-right { transform: translate3d(40px, 0, 0); }
+.reveal.is-revealed { opacity: 1; transform: none; }
+.steps .reveal .step-num { transform: scale(.6); opacity: 0; transition: transform .6s var(--ease-out), opacity .4s; transition-delay: calc(var(--reveal-delay, 0ms) + 180ms); }
+.steps .reveal.is-revealed .step-num { transform: none; opacity: 1; }
+
 /* ---------- Responsive ---------- */
 @media (max-width: 1560px) {
   .partner-badge span { display: none; }
@@ -303,6 +325,7 @@ textarea { min-height: 110px; resize: vertical; }
   .service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .about-grid .offer-image { aspect-ratio: 16 / 10; }
   .section-heading { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .reveal.reveal-left, .reveal.reveal-right { transform: translate3d(0, 28px, 0); }
 }
 @media (max-width: 640px) {
   .wrap { width: min(100% - 24px, 1240px); }
@@ -340,4 +363,7 @@ textarea { min-height: 110px; resize: vertical; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
-@media print { .site-header, .mobile-bar, .hero-actions { display: none !important; } }
+@media print {
+  .site-header, .mobile-bar, .hero-actions { display: none !important; }
+  .reveal, .reveal .step-num { opacity: 1 !important; transform: none !important; }
+}

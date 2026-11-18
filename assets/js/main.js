@@ -1,13 +1,76 @@
 /* MAMEI Elektronik – main.js
-   Kein Tracking, keine externen Dienste. Nur: Menü, Öffnungsstatus, Formulare. */
+   Kein Tracking, keine externen Dienste. Nur: Menü, Scroll-Effekte, Öffnungsstatus, Formulare. */
 (function () {
   "use strict";
 
-  /* ---------- Header-Schatten beim Scrollen ---------- */
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- Header-Schatten + Lesefortschritt beim Scrollen ---------- */
   var header = document.querySelector(".site-header");
   if (header) {
-    var onScroll = function () { header.classList.toggle("is-stuck", window.scrollY > 8); };
-    onScroll(); window.addEventListener("scroll", onScroll, { passive: true });
+    var bar = document.createElement("div");
+    bar.className = "scroll-progress";
+    bar.setAttribute("aria-hidden", "true");
+    header.appendChild(bar);
+    var ticking = false;
+    var onScroll = function () {
+      ticking = false;
+      var y = window.scrollY, max = document.documentElement.scrollHeight - window.innerHeight;
+      header.classList.toggle("is-stuck", y > 8);
+      bar.style.setProperty("--scroll", max > 0 ? Math.min(1, y / max).toFixed(4) : "0");
+    };
+    var requestTick = function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } };
+    onScroll();
+    window.addEventListener("scroll", requestTick, { passive: true });
+    window.addEventListener("resize", requestTick, { passive: true });
+  }
+
+  /* ---------- Einblenden beim Scrollen ----------
+     Nur Elemente, die beim Laden unterhalb des sichtbaren Bereichs liegen, werden versteckt –
+     so flackert nichts und der erste Bildschirm ist sofort da. Elemente, die gemeinsam
+     ins Bild kommen, erscheinen leicht versetzt nacheinander. */
+  if (!reduceMotion && "IntersectionObserver" in window) {
+    var REVEAL = [
+      [".section-heading, .about-panel, .prose", ""],
+      [".service-card, .detail-card, .step, .faq details, .contact-card", ""],
+      [".about-grid > .offer-image, .split > .panel-dark", "reveal-left"],
+      [".about-grid > .about-copy, .split > .panel:not(.panel-dark)", "reveal-right"]
+    ];
+    var STAGGER = 90, MAX_STAGGER = 4;
+    var cleanup = function (el) {
+      el.classList.remove("reveal", "reveal-left", "reveal-right", "is-revealed");
+      el.style.removeProperty("--reveal-delay");
+    };
+    var io = new IntersectionObserver(function (entries) {
+      var visible = entries.filter(function (e) { return e.isIntersecting; }).map(function (e) { return e.target; });
+      visible.sort(function (a, b) {
+        var ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect();
+        return (ra.top - rb.top) || (ra.left - rb.left);
+      });
+      visible.forEach(function (el, i) {
+        io.unobserve(el);
+        var delay = Math.min(i, MAX_STAGGER) * STAGGER;
+        el.style.setProperty("--reveal-delay", delay + "ms");
+        el.classList.add("is-revealed");
+        var done = function (e) {
+          if (e && (e.target !== el || e.propertyName !== "transform")) return;
+          el.removeEventListener("transitionend", done);
+          cleanup(el);
+        };
+        el.addEventListener("transitionend", done);
+        setTimeout(done, delay + 1200); // Fallback, falls transitionend ausbleibt
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0 });
+
+    var vh = window.innerHeight;
+    REVEAL.forEach(function (group) {
+      document.querySelectorAll(group[0]).forEach(function (el) {
+        if (el.classList.contains("reveal") || el.getBoundingClientRect().top < vh) return;
+        el.classList.add("reveal");
+        if (group[1]) el.classList.add(group[1]);
+        io.observe(el);
+      });
+    });
   }
 
   /* ---------- Schwebender WhatsApp-Button: erscheint beim Scrollen ---------- */
@@ -23,7 +86,7 @@
     var imgs = slides.querySelectorAll(".hero-image");
     var dots = document.querySelectorAll(".hero-dots button");
     var idx = 0, timer = null;
-    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var reduce = reduceMotion;
     var show = function (n) {
       idx = (n + imgs.length) % imgs.length;
       imgs.forEach(function (im, i) { im.classList.toggle("is-active", i === idx); });
