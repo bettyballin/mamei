@@ -124,7 +124,7 @@ def footer():
       <a href="impressum.html">Impressum</a>
       <a href="datenschutz.html">Datenschutz</a>
       <span>© <span data-year>2026</span></span>
-      <a href="https://bballin.me/" target="_blank" rel="noopener noreferrer author" title="Website von Bettina Ballin">Bettina Ballin</a>
+      <a href="https://bettyballin.github.io/website/en/" target="_blank" rel="noopener noreferrer author" title="Website von Bettina Ballin">Bettina Ballin</a>
     </div>
   </footer>
 
