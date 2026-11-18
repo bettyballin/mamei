@@ -27,10 +27,10 @@ I = {
  "tool": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6.5a5 5 0 0 0-6.8 6.8L3 18l3 3 4.7-4.7a5 5 0 0 0 6.8-6.8l-3 3-3-3 3-3Z"/></svg>',
  "home": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>',
  "hammer": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 12 3.5 23.5"/><path d="m14 2 8 8-3.5 3.5L10.5 5.5z"/><path d="M19 7l2-2"/></svg>',
- "rocket": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 15l-1 5 5-1 9.5-9.5a3.5 3.5 0 0 0-5-5L4 14"/><path d="M14 6l4 4"/><path d="M9 11l4 4"/></svg>',
- "diamond": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20M10 3l2 6 2-6M12 9v12"/></svg>',
- "cog": '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
  "whatsapp": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3.5A11.9 11.9 0 0 0 3.1 18.1L2 22l4-1a11.9 11.9 0 0 0 17.6-10.4 11.8 11.8 0 0 0-3.1-7.1z"/><path d="M8.6 7.9c.2-.4.5-.4.8-.4h.6c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .6l-.6.8c-.1.2-.3.4-.1.7a8 8 0 0 0 3.6 3.5c.3.1.5.1.7-.1l.9-1c.2-.2.4-.2.6-.1l2 .9c.3.1.5.2.5.4 0 .3 0 1-.4 1.6-.5.6-1.4 1.1-2 1.2-.6.1-1.3.1-2.2-.2a12 12 0 0 1-4.2-2.6 12 12 0 0 1-2.6-4c-.3-.8-.3-1.6-.2-2.1.1-.6.5-1.2 1.2-1.7z"/></svg>',
+ "router": '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="12.5" width="17" height="8" rx="2"/><path d="M12 16.5h.01"/><path d="M9 9.2a4.3 4.3 0 0 1 6 0M6.6 6.8a7.7 7.7 0 0 1 10.8 0"/><path d="M12 11.6v.9"/></svg>',
+ "repair": '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2"/><path d="M13.6 5.5 10.4 9l3.4 2-3.4 3.6"/><path d="M12 18.4h.01"/></svg>',
+ "care": '<svg viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(7.4 .4) scale(.47)"><circle cx="12" cy="12" r="3" vector-effect="non-scaling-stroke"/><path vector-effect="non-scaling-stroke" d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></g><path d="M2.5 15h3.2l4.6 1.4h3.2a1.4 1.4 0 0 1 0 2.8H9.8"/><path d="M5.7 20.2l2.6 1h6.2l6.3-4.3a1.5 1.5 0 0 0-1.9-2.3l-3.6 2.3"/></svg>',
  "menu": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>',
 }
 
@@ -218,14 +218,8 @@ INDEX = f"""      <section class="hero" aria-labelledby="hero-title">
           <h1 id="hero-title">Handys, Tarife und persönliche Beratung <span class="highlight">– direkt vor Ort.</span></h1>
           <p class="hero-copy">Buch dir einen Termin, und wir nehmen uns Zeit nur für dich: Smartphone, Tarif, Internet oder Reparatur – ohne Wartezeit, bei MAMEI Elektronik in Gersfeld.</p>
           <div class="hero-actions">
-            <a class="button button-primary" href="{BOOKING}" {EXT}>{I["cal"]} Jetzt online Termin buchen</a>
+            <a class="button button-primary button-pulse" href="{BOOKING}" {EXT}>{I["cal"]} Jetzt online Termin buchen</a>
             <a class="button button-outline" href="#termin">Terminwunsch senden</a>
-          </div>
-          <p class="hero-hint">Lieber anrufen oder schreiben? <a href="tel:{PHONE_TEL}">{PHONE_DISPLAY}</a> · <a href="{WHATSAPP}" {EXT}>WhatsApp</a></p>
-          <div class="usps" aria-label="Das zeichnet uns aus">
-            <div class="usp">{I["rocket"]}<span>Persönliche<br>Beratung</span></div>
-            <div class="usp">{I["diamond"]}<span>Top-Tarife<br>der Telekom</span></div>
-            <div class="usp">{I["cog"]}<span>Service &amp;<br>Einrichtung</span></div>
           </div>
         </div>
         <div class="hero-visual">
@@ -241,6 +235,12 @@ INDEX = f"""      <section class="hero" aria-labelledby="hero-title">
           </div>
           <span class="hero-status" data-open-status><i class="status-dot" aria-hidden="true"></i><span data-open-text>Öffnungszeiten siehe unten</span></span>
         </div>
+        <nav class="hero-services" aria-label="Unsere Services">
+          <a href="#mobilfunk"><span class="hero-service-icon">{I["mobile"]}</span><span>Mobilfunk</span></a>
+          <a href="#internet"><span class="hero-service-icon">{I["router"]}</span><span>Internet &amp;<br>Festnetz</span></a>
+          <a href="#reparatur"><span class="hero-service-icon">{I["repair"]}</span><span>Reparatur</span></a>
+          <a href="#leistungen"><span class="hero-service-icon">{I["care"]}</span><span>Weitere<br>Services</span></a>
+        </nav>
       </section>
 
       <section class="section" id="termin" aria-labelledby="termin-title">

@@ -36,7 +36,7 @@ assets/img/             Bilder, Favicons, OG-Bild
 ## Farben
 
 Akzentfarbe ist Schieferblau (`--accent: #4b5a8d`, `--accent-dark: #2f3a5f`, `--accent-deep: #1f2742`). Alle Farben stehen als Variablen oben in `assets/css/style.css`.
-Die Hero-Überschrift und die drei USP-Zeilen stammen aus dem Mockup; die Seite duzt weiterhin (das Mockup siezt) – falls gewünscht, in `build.py` umstellen.
+Die Hero-Überschrift stammt aus dem Mockup; die Seite duzt weiterhin (das Mockup siezt) – falls gewünscht, in `build.py` umstellen.
 
 ## Termin-Button
 

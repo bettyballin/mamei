@@ -73,13 +73,6 @@
     });
   }
 
-  /* ---------- Schwebender WhatsApp-Button: erscheint beim Scrollen ---------- */
-  var wa = document.querySelector(".wa-float");
-  if (wa) {
-    var waToggle = function () { wa.classList.toggle("is-visible", window.scrollY > 320); };
-    waToggle(); window.addEventListener("scroll", waToggle, { passive: true });
-  }
-
   /* ---------- Hero-Slideshow: 3 Bilder, Überblendung alle 5 s ---------- */
   var slides = document.querySelector("[data-slideshow]");
   if (slides) {
