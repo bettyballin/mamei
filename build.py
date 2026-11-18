@@ -144,7 +144,7 @@ def footer():
     <a class="social-ig" href="{INSTAGRAM}" {EXT} aria-label="MAMEI Elektronik auf Instagram" title="Instagram">{I["instagram"]}</a>
   </nav>
 
-  <a class="wa-float" href="{WHATSAPP}" {EXT} aria-label="Per WhatsApp schreiben: {WA_DISPLAY}" title="Per WhatsApp schreiben"><img src="assets/img/whatsapp.png" width="72" height="72" alt="" loading="lazy"></a>
+  <a class="wa-float" href="{WHATSAPP}" {EXT} aria-label="Per WhatsApp schreiben: {WA_DISPLAY}" title="Per WhatsApp schreiben"><svg viewBox="0 0 1024 1024" aria-hidden="true" focusable="false"><rect width="1024" height="1024" rx="265" fill="#00DB40"/><path fill="#fff" d="M522 141C320.419 141 157 304.419 157 506C157 572.322 174.689 634.507 205.606 688.101L157 871L346.617 826.173C398.664 854.744 458.429 871 522 871C723.581 871 887 707.581 887 506C887 304.419 723.581 141 522 141ZM522 805.624C460.998 805.624 404.254 787.388 356.919 756.079L244.891 784.61L276.314 677.536C242.322 628.944 222.376 569.801 222.376 506C222.376 340.52 356.52 206.376 522 206.376C687.48 206.376 821.624 340.52 821.624 506C821.624 671.48 687.48 805.624 522 805.624Z"/><path fill="#fff" d="M607.527 554.187L695.836 595.825C699.892 597.737 702.488 601.847 702.123 606.315C701.163 617.934 696.506 641.226 675.626 662.099C616.692 721.033 510.876 654.36 506.577 651.778C480.554 637.799 455.815 619.09 432.374 595.642C408.933 572.201 390.217 547.462 376.238 521.439C373.656 517.14 306.983 411.317 365.917 352.39C386.796 331.51 410.082 326.853 421.701 325.893C426.169 325.528 430.279 328.124 432.192 332.18L473.829 420.489C475.802 424.667 474.937 429.635 471.666 432.899L440.627 463.938C433.915 470.65 431.942 481.1 436.565 489.393C447.887 509.705 463.115 529.259 480.764 547.252C498.757 564.894 518.318 580.129 538.623 591.451C546.917 596.075 557.366 594.108 564.078 587.389L595.117 556.35C598.381 553.086 603.35 552.221 607.527 554.187Z"/></svg></a>
 
   <script src="assets/js/main.js" defer></script>
 </body>
@@ -227,10 +227,9 @@ INDEX = f"""      <section class="hero" aria-labelledby="hero-title">
         <div>
           <p class="eyebrow">Dein Telekom Partner Shop in Gersfeld</p>
           <h1 id="hero-title">Handys, Tarife und persönliche Beratung <span class="highlight">– direkt vor Ort.</span></h1>
-          <p class="hero-copy">Buch dir einen Termin, und wir nehmen uns Zeit nur für dich: Smartphone, Tarif, Internet oder Reparatur – ohne Wartezeit, bei MAMEI Elektronik in Gersfeld.</p>
+          <p class="hero-copy">Wir nehmen uns Zeit für dich. Zuverlässige Reparaturen und persönliche Beratung ohne Wartezeit - bei MAMEI Elektronik in Gersfeld.</p>
           <div class="hero-actions">
             <a class="button button-primary button-pulse" href="{BOOKING}" {EXT}>{I["cal"]} Jetzt online Termin buchen</a>
-            <a class="button button-outline" href="#termin">Terminwunsch senden</a>
           </div>
         </div>
         <div class="hero-visual">
@@ -258,8 +257,8 @@ INDEX = f"""      <section class="hero" aria-labelledby="hero-title">
         <div class="split">
           <div class="panel panel-dark">
             <p class="eyebrow">Termin vereinbaren</p>
-            <h2 id="termin-title">Online buchen, wir halten dir die Zeit frei.</h2>
-            <p>Wähl im Telekom-Buchungsportal einfach Tag und Uhrzeit, und wir sind vorbereitet, wenn du kommst. Für Beratungen zu Tarif, Internet oder Smart Home ist das der entspannteste Weg.</p>
+            <h2 id="termin-title">Online buchen</h2>
+            <p>Wähle im Telekom-Buchungsportal einfach Tag und Uhrzeit. Für Beratungen zu Tarif, Internet oder Smart Home.</p>
             <a class="button button-primary button-light-on-dark" href="{BOOKING}" {EXT}>{I["cal"]} Jetzt online Termin buchen ↗</a>
             <div class="contact-list">
               <a href="tel:{PHONE_TEL}">{I["phone"]}<span>{PHONE_DISPLAY}<small>Telefonisch zu den Öffnungszeiten</small></span></a>
@@ -267,12 +266,12 @@ INDEX = f"""      <section class="hero" aria-labelledby="hero-title">
               <a href="#kontakt">{I["pin"]}<span>Ursinusstr. 13, 36129 Gersfeld<small>Oder einfach vorbeikommen</small></span></a>
             </div>
           </div>
-{form("termin", "Kein passender Slot dabei? Schick uns deinen Terminwunsch – wir rufen zurück und bestätigen.")}
+{form("termin", "Keinen passenden Slot gefunden? Schreibe uns deinen Terminwunsch über das Kontaktformular – wir rufen zurück und bestätigen.")}
         </div>
       </section>
 
       <section class="section" id="leistungen" aria-labelledby="leistungen-title">
-        <div class="section-heading"><h2 id="leistungen-title">Womit wir dir helfen</h2><p>Alles aus einer Hand, alles vor Ort – und wenn du nicht weißt, was du brauchst, finden wir es gemeinsam heraus.</p></div>
+        <div class="section-heading"><h2 id="leistungen-title">Womit wir dir helfen</h2></div>
         <div class="service-grid">
           <a class="service-card" href="#mobilfunk">
             <div class="service-icon" aria-hidden="true">{I["mobile"]}</div>
@@ -399,7 +398,6 @@ INDEX = f"""      <section class="hero" aria-labelledby="hero-title">
           </div>
           <div class="contact-card">
             <h3>{I["clock"]} Öffnungszeiten</h3>{HOURS_HTML}
-            <div class="status-line" data-open-status><i class="status-dot" aria-hidden="true"></i><span data-open-text></span></div>
           </div>
           <div class="contact-card">
             <h3>{I["phone"]} Erreichbarkeit</h3>
@@ -422,7 +420,7 @@ BAU = f"""      <section class="hero hero-sub"><div>
       </div></section>
 
       <section class="section" aria-labelledby="bau-leistungen">
-        <div class="section-heading"><h2 id="bau-leistungen">Das montieren wir</h2><p>Vom Hausanschluss bis zur letzten Dose – aufeinander abgestimmt, damit am Ende alles zusammen funktioniert.</p></div>
+        <div class="section-heading"><h2 id="bau-leistungen">Das montieren wir</h2></div>
         <div class="detail-grid">
           <article class="detail-card"><div class="service-icon" aria-hidden="true">{I["wifi"]}</div><div><h3>Glasfaser im Gebäude</h3><p>Vom Hausübergabepunkt bis zum Router: Wir verlegen und schließen an, damit der Glasfaseranschluss dort ankommt, wo er gebraucht wird.</p><ul><li>Inhouse-Verkabelung ab Hausanschluss</li><li>Glasfaser-Dose im Wohnbereich</li><li>Abstimmung mit dem Netzbetreiber</li></ul></div></article>
           <article class="detail-card"><div class="service-icon" aria-hidden="true">{I["hammer"]}</div><div><h3>Netzwerk- &amp; Datenverkabelung</h3><p>LAN-Dosen in jedem Raum, ein sauberer Netzwerkschrank und WLAN-Zugangspunkte dort, wo sie wirklich etwas bringen.</p><ul><li>Netzwerkdosen und Patchfeld</li><li>WLAN-Ausleuchtung mit Access Points</li><li>Vorbereitung für Homeoffice und Streaming</li></ul></div></article>
