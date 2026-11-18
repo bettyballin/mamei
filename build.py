@@ -89,7 +89,7 @@ def header(current=""):
       <nav class="desktop-nav" aria-label="Hauptnavigation">
         {nav("index.html#mobilfunk", "Mobilfunk", "mobilfunk")}
         {nav("index.html#internet", "Internet", "internet")}
-        {nav("index.html#reparatur", "Service", "service")}
+        {nav("services.html", "Services", "services")}
         {nav("baumontage.html", "Baumontage", "baumontage")}
         {nav("index.html#ueber-uns", "Über uns", "ueber")}
         {nav("index.html#kontakt", "Kontakt", "kontakt")}
@@ -102,6 +102,7 @@ def header(current=""):
     </div>
     <nav class="mobile-menu wrap" id="mobileMenu" aria-label="Mobile Navigation">
       <a href="index.html#leistungen">Leistungen</a>
+      <a href="services.html">Services &amp; Preise</a>
       <a href="baumontage.html">Baumontage</a>
       <a href="index.html#ueber-uns">Über uns</a>
       <a href="{BOOKING}" {EXT}>Online Termin buchen ↗</a>
@@ -125,6 +126,7 @@ def footer():
       <nav class="footer-links" aria-label="Footer">
         <a href="index.html#kontakt">Öffnungszeiten</a>
         <a href="index.html#kontakt">Anfahrt</a>
+        <a href="services.html">Services &amp; Preise</a>
         <a href="baumontage.html">Baumontage</a>
         <a href="impressum.html">Impressum</a>
         <a href="datenschutz.html">Datenschutz</a>
@@ -247,7 +249,7 @@ INDEX = f"""      <section class="hero" aria-labelledby="hero-title">
           <a href="#mobilfunk"><span class="hero-service-icon">{I["mobile"]}</span><span>Mobilfunk</span></a>
           <a href="#internet"><span class="hero-service-icon">{I["router"]}</span><span>Internet &amp;<br>Festnetz</span></a>
           <a href="#reparatur"><span class="hero-service-icon">{I["repair"]}</span><span>Reparatur</span></a>
-          <a href="#leistungen"><span class="hero-service-icon">{I["care"]}</span><span>Weitere<br>Services</span></a>
+          <a href="services.html"><span class="hero-service-icon">{I["care"]}</span><span>Weitere<br>Services</span></a>
         </nav>
       </section>
 
@@ -469,6 +471,71 @@ BAU = f"""      <section class="hero hero-sub"><div>
       </section>
 """
 
+# Preise von der bisherigen Services-Seite (mamei.de/services). "ab"-Preise inkl. MwSt.
+# None = kostenlos. Vor dem Livegang mit Vanessa abgleichen (siehe README).
+PRICES = [
+ ("mobile", "Smartphone einrichten", "Neues Gerät? Wir richten es mit dir ein und ziehen deine Daten um.", [
+   ("Ersteinrichtung", "ab 29,90 €"),
+   ("Google-Dienste installieren", "ab 29,90 €"),
+   ("Datenübertragung vom alten Handy", "ab 49,90 €"),
+   ("Apps installieren", None),
+   ("Displayfolie anbringen", None),
+ ]),
+ ("repair", "Reparatur", "Wir schauen uns das Gerät an und sagen dir vorher, was es kostet.", [
+   ("Fehlerdiagnose", None),
+   ("Kostenvoranschlag", "ab 22,00 €"),
+   ("Smartphone-Reparatur", "ab 22,00 €"),
+ ]),
+ ("cal", "Verträge, Tarife & SIM", "Papierkram, SIM-Karten und Tarifwechsel – wir erledigen das mit dir.", [
+   ("Tarifberatung Mobilfunk", "ab 0,99 €"),
+   ("Tarifberatung Festnetz", "ab 0,99 €"),
+   ("Vertragsabwicklung", "ab 14,95 €"),
+   ("SIM-Karten-Service", "ab 17,95 €"),
+   ("Prepaid-Karte registrieren", "ab 17,95 €"),
+   ("Prepaid-Karte aufladen", None),
+   ("Leihhandy", "ab 10,00 €"),
+ ]),
+ ("home", "Bei dir vor Ort", "Wir kommen vorbei und richten Technik direkt bei dir zu Hause ein.", [
+   ("DSL-Router installieren", "ab 47,50 €"),
+   ("Computer installieren", "ab 47,50 €"),
+   ("Smart Home installieren", "ab 30,00 €"),
+   ("Smart Home konfigurieren", "ab 30,00 €"),
+ ]),
+]
+
+def price_card(icon, title, intro, rows):
+    items = "".join(
+        f'<li><span>{name}</span><span class="price{" price-free" if price is None else ""}">{price or "kostenlos"}</span></li>'
+        for name, price in rows)
+    return (f'          <article class="price-card"><div class="price-head"><div class="service-icon" aria-hidden="true">{I[icon]}</div>'
+            f'<div><h2>{title}</h2><p>{intro}</p></div></div><ul class="price-list">{items}</ul></article>')
+
+SERVICES = f"""      <section class="hero hero-sub"><div>
+        <nav class="breadcrumb" aria-label="Brotkrumen"><a href="index.html">Start</a><span>›</span><span>Services &amp; Preise</span></nav>
+        <p class="eyebrow">Services &amp; Preise</p>
+        <h1>Hilfe rund ums Smartphone – mit Preis vorab.</h1>
+        <p class="hero-copy">Einrichten, reparieren, Verträge, SIM-Karten oder Technik bei dir zu Hause: Hier siehst du, was unsere Services kosten. Vieles ist kostenlos, und bei allem anderen weißt du vorher, woran du bist.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="{BOOKING}" {EXT}>{I["cal"]} Termin buchen</a>
+          <a class="button button-outline" href="tel:{PHONE_TEL}">{I["phone"]} {PHONE_DISPLAY}</a>
+        </div>
+      </div></section>
+
+      <section class="section" aria-label="Preisliste">
+        <div class="price-grid">
+""" + "\n".join(price_card(*g) for g in PRICES) + f"""
+        </div>
+        <p class="price-note">Alle Preise inkl. MwSt. Bei „ab“-Preisen hängt der Endpreis von Gerät und Aufwand ab – wir nennen ihn dir, bevor wir loslegen. Reparaturen beginnen immer mit einem Kostenvoranschlag.</p>
+      </section>
+
+      <section class="section"><div class="about-panel" aria-labelledby="svc-cta">
+        <p class="eyebrow">Nicht dabei, was du suchst?</p>
+        <h2 id="svc-cta">Frag einfach – meistens finden wir eine Lösung.</h2>
+        <p>Komm zu den Öffnungszeiten vorbei, ruf an unter {PHONE_DISPLAY} oder schreib uns per WhatsApp. Für ausführliche Beratungen buchst du am besten einen Termin.</p>
+        <a class="text-link" href="{BOOKING}" {EXT}>Termin buchen ↗</a>
+      </div></section>
+"""
+
 IMPRESSUM = f"""      <section class="hero hero-sub"><div>
         <nav class="breadcrumb" aria-label="Brotkrumen"><a href="index.html">Start</a><span>›</span><span>Impressum</span></nav>
         <h1>Impressum</h1>
@@ -565,7 +632,7 @@ NOTFOUND = f"""      <section class="hero hero-sub"><div>
 def page(fname, title, desc, body, current="", extra="", noindex=False):
     html = head(title, desc, fname, extra, noindex) + header(current) + body + footer()
     if fname == "404.html":
-        for a in ("assets/", "index.html", "baumontage.html", "impressum.html", "datenschutz.html"):
+        for a in ("assets/", "index.html", "services.html", "baumontage.html", "impressum.html", "datenschutz.html"):
             html = html.replace(f'href="{a}', f'href="/{a}').replace(f'src="{a}', f'src="/{a}')
     with open(os.path.join(OUT, fname), "w", encoding="utf-8") as f:
         f.write(html)
@@ -577,6 +644,9 @@ page("index.html", "MAMEI Elektronik – Handys, Tarife & Beratung | Telekom Par
 page("baumontage.html", "Baumontage in der Rhön – Glasfaser, Netzwerk, Sat & Smart Home | MAMEI Elektronik",
      "Baumontage von MAMEI Elektronik Gersfeld: Glasfaser im Gebäude, Netzwerkverkabelung, WLAN, Sat-Technik und Smart-Home-Vorbereitung für Neubau und Sanierung.",
      BAU, current="baumontage")
+page("services.html", "Services & Preise – Einrichtung, Reparatur, SIM & mehr | MAMEI Elektronik Gersfeld",
+     "Smartphone einrichten, Reparatur, Vertrags- und SIM-Service, Router- und Smart-Home-Installation: alle Services von MAMEI Elektronik in Gersfeld mit Preisen.",
+     SERVICES, current="services")
 page("impressum.html", "Impressum | MAMEI Elektronik GmbH", "Impressum der MAMEI Elektronik GmbH, Gersfeld (Rhön).", IMPRESSUM, noindex=True)
 page("datenschutz.html", "Datenschutzerklärung | MAMEI Elektronik GmbH", "Datenschutzerklärung der MAMEI Elektronik GmbH: Hosting, Kontaktformulare, Cookies, Rechte der Betroffenen.", DATENSCHUTZ, noindex=True)
 page("danke.html", "Danke für deine Anfrage | MAMEI Elektronik", "Deine Anfrage ist bei MAMEI Elektronik angekommen.", DANKE, noindex=True)

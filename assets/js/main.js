@@ -32,7 +32,7 @@
   if (!reduceMotion && "IntersectionObserver" in window) {
     var REVEAL = [
       [".section-heading, .about-panel, .prose", ""],
-      [".service-card, .detail-card, .step, .faq details, .contact-card", ""],
+      [".service-card, .detail-card, .price-card, .step, .faq details, .contact-card", ""],
       [".about-grid > .offer-image, .split > .panel-dark", "reveal-left"],
       [".about-grid > .about-copy, .split > .panel:not(.panel-dark)", "reveal-right"]
     ];

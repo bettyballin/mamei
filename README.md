@@ -7,6 +7,7 @@ Design auf Basis von Design 3 (hell) und Design 4 (dunkel), Schieferblau, Montse
 
 ```
 index.html          Startseite (Hero, Leistungen, Details, Ablauf, Über uns, Termin, FAQ, Kontakt)
+services.html       Services & Preise (Preisliste aus der alten Services-Seite)
 baumontage.html     Unterseite Baumontage mit Anfrageformular
 impressum.html      Impressum
 datenschutz.html    Datenschutzerklärung
@@ -47,6 +48,9 @@ Soll später ein Buchungstool verlinkt werden: in `build.py` `BOOKING` ändern u
 
 - **Baumontage**: Leistungen, Zielgruppen und FAQ sind ein Vorschlag auf Basis typischer Montagearbeiten eines
   Telekom-Partners. Bitte mit dem tatsächlichen Angebot abgleichen.
+- **Services & Preise** (`services.html`, Daten in `build.py` unter `PRICES`): Preise stammen von der alten
+  Shop-Seite mamei.de/services. Prüfen, ob sie aktuell sind, ob die Tarifberatung wirklich „ab 0,99 €“ kostet
+  (oder kostenlos ist) und ob es das Leihhandy noch gibt. Alte URL `/services/` per `.htaccess` auf `services.html` weiterleiten.
 - **FAQ auf der Startseite**: Antworten sind allgemein gehalten, aber bitte gegenlesen (z. B. Geschäftskunden, Reparaturumfang).
 - **Leistungslisten**: insbesondere „Fernsehen über das Internet“, „Datensicherung“, „Geschäftskundenlösungen“ – nur stehen lassen, was angeboten wird.
 - **Impressum**: Registergericht (Amtsgericht Fulda), HRB 7581 und USt-ID DE 165600415 stammen von der alten Website;

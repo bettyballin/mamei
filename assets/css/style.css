@@ -246,6 +246,20 @@ textarea { min-height: 110px; resize: vertical; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { padding: 0 0 16px; color: var(--muted); font-size: 14.5px; max-width: 760px; }
 
+/* ---------- Services & Preise ---------- */
+.price-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; align-items: start; }
+.price-card { padding: 26px; border: 1px solid var(--line); background: var(--surface); border-radius: var(--radius); }
+.price-head { display: grid; grid-template-columns: 48px 1fr; gap: 16px; align-items: start; }
+.price-head .service-icon { width: 48px; height: 48px; margin: 0; }
+.price-head h2 { font-size: 19px; font-weight: 800; letter-spacing: -.02em; }
+.price-head p { margin-top: 4px; color: var(--muted); font-size: 14.5px; }
+.price-list { margin-top: 18px; border-top: 1px solid var(--line); }
+.price-list li { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+.price-list li:last-child { border-bottom: 0; padding-bottom: 0; }
+.price { font-weight: 700; white-space: nowrap; color: var(--accent-deep); font-variant-numeric: tabular-nums; }
+.price-free { padding: 2px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-size: 13px; }
+.price-note { margin-top: 16px; color: var(--muted); font-size: 13.5px; max-width: 760px; }
+
 /* ---------- Kontakt ---------- */
 .contact-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
 .contact-card { padding: 24px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); }
@@ -351,7 +365,7 @@ textarea { min-height: 110px; resize: vertical; }
   .hero-visual { order: -1; }
   .hero-slides { aspect-ratio: 16 / 10; }
   .hero-services { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 16px; }
-  .detail-grid, .split, .about-grid { grid-template-columns: 1fr; }
+  .detail-grid, .split, .about-grid, .price-grid { grid-template-columns: 1fr; }
   .steps, .contact-grid { grid-template-columns: 1fr 1fr; }
   .service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .about-grid .offer-image { aspect-ratio: 16 / 10; }
@@ -385,6 +399,8 @@ textarea { min-height: 110px; resize: vertical; }
   .service-card.wide .text-link { margin: 0; padding-top: 10px; }
   .service-card { min-height: 0; }
   .detail-card { grid-template-columns: 1fr; padding: 20px; }
+  .price-card { padding: 20px; }
+  .price-head { grid-template-columns: 1fr; gap: 12px; }
   .steps, .contact-grid, .facts, .form-row { grid-template-columns: 1fr; }
   .about-panel { border-radius: 22px; }
   .mobile-bar { display: flex; }
